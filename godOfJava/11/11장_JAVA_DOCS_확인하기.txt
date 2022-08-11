@@ -1,0 +1,43 @@
+자바 docs 확인하기
+
+- 클래스 상속 관계 다이어그램 (Class Inheritance Diagram)
+	해당 클래스가 어떤 클래스들을 상속받았는지에 대한 관게를 보여준다.
+	부모클래스에서는 선언되었지만 자식클래스에서 별도로 Overriding 하지 않은경우 메서드 에 자세한설명이 제공되지않아 부모클래스들의 메서드를 확인해야한다.
+
+- 직속 자식클래스 (Direct Known Subclasses)
+	현재 보고있는 클래스를 확장한 클래스들의 목록이 나타난다.
+
+- 알려진 모든 하위 인터페이스 목록 (All Known Subinterfaces) - 인터페이스에만 존재한다.
+	인터페이스를 상속받은 인터페이스 목록을 나타낸다. (인터페이스 간의 확장 관례를 확인하기 쉽다.)
+
+- 알려진 모든 구현한 클래스 목록 (All Known implemented Interfaces)
+	클래스에서 구현한 모든 인터페이스 목록을 나타낸다.
+
+- 클래스 / 인터페이스의 선언상태 (Class / Interface Declaration)
+	클래스 및 인터페이스의 접근제어자등 클래스의 선언상태를 확인 할 수 있다.
+	
+- 클래스 / 인터페이스의 설명 (Class / Interface Description)
+	클래스에 대한 상세설명을 확인 할 수 있다. 용도, 클래스 사용법, 상용예 등
+	See 와 See also 부분에 해당 기능이 추가된 버전 및 관련된 모든 클래스나 인터페이스 메소드 등을 확인 할 수 있다.
+
+- 내부 클래스 종합 (Nested Class Summary)
+	클래스 안에 public으로 선언된 클래스 목록을 확인 할 수 있다.
+
+- 상수 필드 종합 (Field Summary) 
+	public static 으로 선언된 필드들을 확인할 수 있다.
+	
+- 생성자 종합 (Constructor Summary) 
+	클래스에 생성자들을 확인할 수 있다.
+
+- 메소드 종합 (Method Summary)
+	클래스에 public, protected 으로 선언되어있는 메서드에 대한 종합 정보를 확인할 수 있다.
+	(javadoc에서 API 문서를 생성할때 private 메소드도 보이게 할 수 있다.)
+
+- 상수필드 상세 설명 (Field Detail)
+	클래스에 선언된 상수가 어떤 내용을 제공하는지에 대한 상세설명을 확인할 수 있다.
+	
+- 생성자 상세 설명 (Constructor Detail)
+	생성자를 어떻게 사용방법과 매개변수, 예외가 언제 발생하는지 알 수 있다.
+
+- 메소드 상세설명 (Method Detail)
+	메소드에 대한 상세설명을 확인할 수 있다.
