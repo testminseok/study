@@ -6,6 +6,8 @@ public class MemberDTO {
 	public String phone;
 	public String email;
 	
+	public MemberDTO() {}
+	
 	public MemberDTO(String name) {
 		this.name = name;
 	}
@@ -50,5 +52,9 @@ public class MemberDTO {
 		result = prime * result + ((email == null) ? 0 : email.hashCode());
 		
 		return result;
+	}
+	
+	public String toString() {
+		return "Name = " + name + ", phone = " + phone + ", email = " + email;
 	}
 }
