@@ -4,9 +4,10 @@ public class ManageStudent {
 		ManageStudent manage = new ManageStudent();
 		Student[] students = null;
 		
-		students = manage.addStudent();
+		//students = manage.addStudent();
 		
-		manage.printStudents(students);
+		//manage.printStudents(students);
+		manage.checkEquals();
 	}
 	
 	public Student[] addStudent() {
@@ -24,6 +25,17 @@ public class ManageStudent {
 		
 		for (Student student : students) {
 			System.out.println(student);
+		}
+	}
+	
+	public void checkEquals() {
+		Student a = new Student("Min", "Seoul", "010XXXXXXXX", "ask@godOfjava.com");
+		Student b = new Student("Min", "Seoul", "010XXXXXXXX", "ask@godOfjava.com");
+		
+		if (a.equals(b)) {
+			System.out.println("Equals");
+		} else {
+			System.out.println("Not Equals");
 		}
 	}
 }
