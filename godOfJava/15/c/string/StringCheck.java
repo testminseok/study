@@ -11,9 +11,15 @@ public class StringCheck {
 			"서울시 구로구 개봉동"
 		};
 		sample.checkAddress(addresses);
+		System.out.println("=================");
 		sample.containsAddress(addresses);
+		System.out.println("=================");
 		sample.checkMatch();
+		System.out.println("=================");
 		sample.checkIndexOf();
+		System.out.println("=================");
+		sample.checkSplit();
+		System.out.println("=================");
 	}
 	
 	public void checkAddress(String[] addresses) {
@@ -85,17 +91,36 @@ public class StringCheck {
 		
 		String text = "Java technology is both a programming language and a platform.";
 		
+		// indexOf는 왼쪽을 시작으로 오른쪽으로 탐색을 시작한다.
 		System.out.println(text.indexOf('a'));
 		System.out.println(text.indexOf("a "));
 		System.out.println(text.indexOf('a', 20));
 		System.out.println(text.indexOf("a ", 20));
 		System.out.println(text.indexOf('z'));
 		
+		// lastIndexOf는 오른쪽을 시작으로 왼쪽으로 탐색을 시작한다.
 		System.out.println(text.lastIndexOf('a'));
 		System.out.println(text.lastIndexOf("a "));
 		System.out.println(text.lastIndexOf('a', 20));
 		System.out.println(text.lastIndexOf("a ", 20));
 		System.out.println(text.lastIndexOf('z'));
+		
+	}
+	
+	public void checkSplit() {
+		
+		/*
+			자바에서 문자열을 여러 개의 문자열의 배열로 나누는방법은 String.split()을 사용하는것과
+			java.util.StringTokenizer를 사용하는것이 있다.
+			
+			- 정규식을 사용하며 문자열을 나눌려면 split() 을 그냥 특정문자열로 나눌려면 StringTokenizer를 사용하면 된다.
+		*/
+		String text = "Java technology is both a programming language and a platform.";
+		String[] splitArray = text.split(" ");
+		
+		for (String value : splitArray) {
+			System.out.println(value);
+		}
 		
 	}
 }
