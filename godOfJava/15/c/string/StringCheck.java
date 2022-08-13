@@ -20,6 +20,8 @@ public class StringCheck {
 		System.out.println("=================");
 		sample.checkSplit();
 		System.out.println("=================");
+		sample.checkTrim();
+		System.out.println("=================");
 	}
 	
 	public void checkAddress(String[] addresses) {
@@ -120,6 +122,24 @@ public class StringCheck {
 		
 		for (String value : splitArray) {
 			System.out.println(value);
+		}
+		
+	}
+	
+	public void checkTrim() {
+		
+		/*
+			trim() 은 문자열에 양쪽 공백만 제거해준다. 문자와 문자 사이에 공백은 지워주지 않는다.
+			
+			문자열이 공백만으로 이루어져있는지, 공백을 제외한 값이 있는지 확인하는 용도로 자주사용된다.
+		*/
+		String[] strings = new String[] {
+			" a", " b ", "   c", "d    ", "e      f", "    "
+		};
+		
+		for (String value : strings) {
+			System.out.println("[" + value + "]");
+			System.out.println("[" + value.trim() + "]");
 		}
 		
 	}
