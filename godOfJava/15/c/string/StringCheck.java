@@ -22,6 +22,8 @@ public class StringCheck {
 		System.out.println("=================");
 		sample.checkTrim();
 		System.out.println("=================");
+		sample.checkReplce();
+		System.out.println("=================");
 	}
 	
 	public void checkAddress(String[] addresses) {
@@ -142,5 +144,19 @@ public class StringCheck {
 			System.out.println("[" + value.trim() + "]");
 		}
 		
+	}
+	
+	public void checkReplce() {
+		
+		String text = "The String class represents character strings.";
+		
+		/*
+			replace와 replaceAll 메소드애 리턴값은 String 이므로 원본객체에 변경없이 작업을 수행한 결과를 반환한다.
+		*/
+		System.out.println(text.replace('s', 'z'));
+		System.out.println(text);
+		System.out.println(text.replace("tring", "trike"));
+		System.out.println(text.replaceAll(" ", "|"));
+		System.out.println(text.replaceFirst(" ", "|"));
 	}
 }
