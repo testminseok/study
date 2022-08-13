@@ -24,6 +24,8 @@ public class StringCheck {
 		System.out.println("=================");
 		sample.checkReplce();
 		System.out.println("=================");
+		sample.parameterCharSequence("Hello World");
+		System.out.println("=================");
 	}
 	
 	public void checkAddress(String[] addresses) {
@@ -158,5 +160,6 @@ public class StringCheck {
 		System.out.println(text.replace("tring", "trike"));
 		System.out.println(text.replaceAll(" ", "|"));
 		System.out.println(text.replaceFirst(" ", "|"));
+		
 	}
 }
