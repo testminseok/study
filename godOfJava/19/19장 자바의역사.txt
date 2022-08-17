@@ -8,5 +8,26 @@
 1996년
 JDK 1.0이 출시되었다. 그 이후 계속해서 자바버전이 릴리즈 되고있다.
 
+- JDK 는 Oracle JDK 뿐만 아니라 여러가지 JDK 가 있다.
+- JDK : Java Development Kit , J2SE : Java 2 Standard Edition, Java SE : Java Standard Edition
+- JRE : Java Runtime Environment
+
+자바 언어의 5가지 특징
+- 자바는 "단순하고, 객체지향적이며, 친숙" 해야한다.
+- 자바는 "견고하며, 보안상 안전"하다.
+- 자바는 "아키텍처에 중립적이어야 하며 포터블" 해야한다.
+- 자바는 "높은 성능"을 제공해야한다.
+- 자바는 "인터프린트 언어이며, 쓰레드를 제공하고, 동적인 언어"이다.
+
+JIT: Just-In-Time
+- 자바컴파일러에 의해서 컴파일된 ByteCode 를 JVM 에서 기계코드로 변환하는 과정을 JIT에서 수행한다.
+
+JVM : Java Virtual Machine (자바 가상머신)
+- 자바 프로그램이 실행될때 JVM 위에서 실행된다.
+GC : Garbage Collector (가비지 컬랙터)
+- JVM 내에서 메모리 관리를 해준다.
+
+
+
 
 
