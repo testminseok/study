@@ -27,6 +27,12 @@ JVM : Java Virtual Machine (자바 가상머신)
 GC : Garbage Collector (가비지 컬랙터)
 - JVM 내에서 메모리 관리를 해준다.
 
+GC의 종류
+- Serial GC
+- Parallel Young Genereation Collector
+- Parallel Old Generation Collector
+- Concurrent Mark & Sweep Collector
+- G1 (Garbage First)
 
 
 
