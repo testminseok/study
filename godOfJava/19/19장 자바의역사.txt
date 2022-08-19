@@ -29,7 +29,7 @@ GC : Garbage Collector (가비지 컬랙터)
 
 GC의 종류
 - Serial GC
-- Parallel Young Genereation Collector
+- Parallel Young Generation Collector
 - Parallel Old Generation Collector
 - Concurrent Mark & Sweep Collector
 - G1 (Garbage First)
