@@ -1,6 +1,7 @@
 package d.collection;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 
 public class ListSample {
     public static void main(String[] args) {
@@ -18,6 +19,8 @@ public class ListSample {
         sample.checkArrayList6();
         System.out.println("=============================");
         sample.checkArrayList7();
+        System.out.println("=============================");
+        sample.checkArrayList8();
         System.out.println("=============================");
     }
 
@@ -117,6 +120,23 @@ public class ListSample {
 
         for (String temp : strList) {
             System.out.println(temp);
+        }
+    }
+
+    public void checkArrayList8() {
+        ArrayList<String> list = new ArrayList<>();
+        list.add("A");
+        list.add("B");
+        list.add("C");
+        list.add("A");
+
+//        System.out.println("Removed " + list.remove("A"));
+
+        list.removeAll(Arrays.asList("A"));
+
+        int size = list.size();
+        for (int i = 0; i < size; i++) {
+            System.out.println("list.get(" + i + ") = " + list.get(i));
         }
     }
 }
