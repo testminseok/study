@@ -1,11 +1,13 @@
 package d.collection;
 
-import java.util.Arrays;
 import java.util.HashSet;
 import java.util.Set;
 
 public class SetSample {
     public static void main(String[] args) {
+        /*
+        * Set 은 데이터의 순서를 보장하지 않으며, 중복을 허용하지 않는다.
+        * */
         SetSample sample = new SetSample();
         String[] cars = new String[] {
                 "Tico", "Sonata", "BMW", "Benz",
