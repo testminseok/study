@@ -20,6 +20,5 @@ public class FileFilterSample {
         } catch (Exception e) {
             e.printStackTrace();
         }
-
     }
 }
