@@ -8,6 +8,10 @@ import java.util.Date;
 
 public class SocketClientSample {
     public static void main(String[] args) {
+        /*
+        * TCP 는 데이터가 정상적으로 전송된다는 보장이 된다.
+        * 하지만 그만큼 UDP 보다 비용이 비싸고, 느리며 무겁다.
+        * */
         SocketClientSample sample = new SocketClientSample();
         sample.sendSocketSample();
     }
