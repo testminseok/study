@@ -7,6 +7,10 @@ import java.util.Date;
 
 public class DatagramClientSample {
     public static void main(String[] args) {
+        /*
+        * UDP 는 데이터전송의 성공여부를 보장하지 않는다.
+        * 때문에 서버가 중지 되어있어도 클라이언트에서는 오류가 발생하지 않는다.
+        * */
         DatagramClientSample sample = new DatagramClientSample();
         sample.sendDatagramSample();
     }
