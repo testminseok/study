@@ -1,5 +1,7 @@
 package me.testmain.demospringsecurityform.account;
 
+import org.springframework.security.crypto.password.PasswordEncoder;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -50,7 +52,11 @@ public class Account {
         this.role = role;
     }
 
-    public void setEncodePassword() {
-        password = "{noop}" + password;
+    public void setEncodePassword(PasswordEncoder passwordEncoder) {
+        /*
+        * Spring Security 5.x 이전 버전에서는 NoOpPasswordEncoder 를 기본으로 사용하였지만,
+        * 이후 기본 인코딩 타입이 bcrypt 로 바뀌고 다양한 인코딩을 지원하기 위해 바뀌었다.
+        * */
+        password = passwordEncoder.encode(password);
     }
 }

@@ -4,6 +4,7 @@ import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 /*
@@ -16,8 +17,11 @@ public class AccountService implements UserDetailsService {
 
     private final AccountRepository accountRepository;
 
-    public AccountService(AccountRepository accountRepository) {
+    private final PasswordEncoder passwordEncoder;
+
+    public AccountService(AccountRepository accountRepository, PasswordEncoder passwordEncoder) {
         this.accountRepository = accountRepository;
+        this.passwordEncoder = passwordEncoder;
     }
 
     @Override
@@ -38,7 +42,7 @@ public class AccountService implements UserDetailsService {
         /*
         * 비밀번호는 약식에 맞게 인코딩유형을 prefix 에 붙여줘야한다.
         * */
-        account.setEncodePassword();
+        account.setEncodePassword(passwordEncoder);
         return accountRepository.save(account);
     }
 }
