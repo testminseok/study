@@ -9,12 +9,16 @@ import java.security.Principal;
 @Controller
 public class SampleController {
 
+    /*
+    * Principal 의 구현체를 Spring Security 가 현재 인증된 사용자라면 그 정보를 담아
+    * Spring MVC Handler 에 받아서 사용할 수 있게 값을 넘겨준다.
+    * */
     @GetMapping("/")
     public String index(Model model, Principal principal) {
         if (principal == null) {
             model.addAttribute("message", "Hello Spring Security");
         } else {
-            model.addAttribute("message", "Hello" + principal.getName());
+            model.addAttribute("message", "Hello, " + principal.getName());
         }
 
         return "index";
@@ -28,13 +32,13 @@ public class SampleController {
 
     @GetMapping("/dashboard")
     public String dashboard(Model model, Principal principal) {
-        model.addAttribute("message", "Hello" + principal.getName());
+        model.addAttribute("message", "Hello, " + principal.getName());
         return "dashboard";
     }
 
     @GetMapping("/admin")
     public String admin(Model model, Principal principal) {
-        model.addAttribute("message", "Hello Admin" + principal.getName());
+        model.addAttribute("message", "Hello Admin, " + principal.getName());
         return "admin";
     }
 
