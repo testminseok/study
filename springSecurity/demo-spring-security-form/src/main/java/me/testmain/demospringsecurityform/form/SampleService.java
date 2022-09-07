@@ -18,6 +18,18 @@ public class SampleService {
         * authorities 안에는 사용자 권한이 담겨있고, ROLE_권한이름 의 형태로 담겨있다.
         * isAuthenticated 는 토큰 만료 같은 경우가 아니면 logout 하기 전까지 true 이다.
         *
+        * 사용자의 요청이 들어올때 FilterChainProxy 가 그 요청을 처리하는데,
+        * WebSecurityConfigurerAdapter 를 확장하여 Bean 으로 등록된 객체의 설정에 따라 Filter 의 종류와 갯수가 달라진다
+        *
+        * FilterChainProxy 에 등록된 SecurityContextPersistenceFilter 에서는
+        * 이미 인증이 된 사용자라면 HttpSession 에서 SecurityContext 를 불러와 SecurityContext 객체를 SecurityContextHolder 에
+        * 저장한다. 요청이 종료되면 SecurityContextPersistenceFilter 에서 HttpSession 에 SecurityContext 를 저장한다.
+        *
+        * Form 로그인의 경우 UsernamePasswordAuthenticationFilter 가 그 처리를 담당한다.
+        * attemptAuthentication 메소드를 통해 AuthenticationManager 를 사용하여 인증을 진행하고
+        * UsernamePasswordAuthenticationFilter 의 부모 클래스인 AbstractAuthenticationProcessingFilter 에서
+        * SecurityContextHolder.SecurityContext 에 Authentication 객체를 넣어준다.
+        *
         * Authentication 객체가 SecurityContextHolder.getContext().getAuthentication() 에 담기기 까지의 과정
         * 실제로 인증은 AuthenticationManager 라는 인터페이스가 담당하게 되는데
         * 이것을 구현한 ProviderManager.authenticate(Authentication authentication) 메소드에서 인증과정을 진행한다.
