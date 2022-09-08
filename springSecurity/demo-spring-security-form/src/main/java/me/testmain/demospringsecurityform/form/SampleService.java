@@ -18,6 +18,11 @@ public class SampleService {
         * authorities 안에는 사용자 권한이 담겨있고, ROLE_권한이름 의 형태로 담겨있다.
         * isAuthenticated 는 토큰 만료 같은 경우가 아니면 logout 하기 전까지 true 이다.
         *
+        * DelegatingFilterProxy 은 서블릿 설정을 통해 등록이 된다.
+        * Spring boot 없이 SpringSecurity 설정을 할때에는 AbstractSecurityWebApplicationInitializer 를 사용해서 등록을하고,
+        * Spring boot 를 사용할때에는 자동으로 등록된다. (SecurityFilterAutoConfiguration)
+        * DelegatingFilterProxy 가 Spring 의 Bean 으로 등록되어있는 FilterChainProxy 에게 작업을 위임한다.
+        *
         * 사용자의 요청이 들어올때 FilterChainProxy 가 그 요청을 처리하는데,
         * WebSecurityConfigurerAdapter 를 확장하여 Bean 으로 등록된 객체의 설정에 따라 Filter 의 종류와 갯수가 달라진다
         *
