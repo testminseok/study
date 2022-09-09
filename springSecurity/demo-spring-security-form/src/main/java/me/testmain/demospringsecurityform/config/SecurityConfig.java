@@ -1,29 +1,43 @@
 package me.testmain.demospringsecurityform.config;
 
+import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
-import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
-import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
+import org.springframework.security.web.SecurityFilterChain;
 
 @Configuration
-@EnableWebSecurity
-public class SecurityConfig extends WebSecurityConfigurerAdapter {
-    @Override
-    protected void configure(HttpSecurity http) throws Exception {
-        http.authorizeHttpRequests() // 인가가 필요한 모든 요청들
-                .mvcMatchers("/", "/info", "/account/**").permitAll() // 중에 "/"와 "/info" 는 접근을 허용하고
-                .mvcMatchers("/admin").hasRole("ADMIN") // "/admin" 요청은 유저에 ADMIN Role 을 가지고 있어야한다.
-                .anyRequest().authenticated(); // 그외 모든 요청은 인증을 해야한다.
+public class SecurityConfig {
+
+    @Bean
+    public SecurityFilterChain configure(HttpSecurity http) throws Exception {
+        http.authorizeHttpRequests()
+                .mvcMatchers("/", "/info", "/account/**").permitAll()
+                .mvcMatchers("/admin").hasRole("ADMIN")
+                .mvcMatchers("/user").hasRole("USER")
+                .anyRequest().authenticated();
 
         http.formLogin();
         http.httpBasic();
+
+        return http.build();
     }
+
+//    @Override
+//    protected void configure(HttpSecurity http) throws Exception {
+//        http.authorizeHttpRequests() // 인가가 필요한 모든 요청들
+//                .mvcMatchers("/", "/info", "/account/**").permitAll() // 중에 "/"와 "/info" 는 접근을 허용하고
+//                .mvcMatchers("/admin").hasRole("ADMIN") // "/admin" 요청은 유저에 ADMIN Role 을 가지고 있어야한다.
+//                .anyRequest().authenticated(); // 그외 모든 요청은 인증을 해야한다.
+//
+//        http.formLogin();
+//        http.httpBasic();
+//    }
 
 
 
     /*
-    * Authentication 을 설정할 수 있는 메소드
-    * */
+     * Authentication 을 설정할 수 있는 메소드
+     * */
 //    @Override
 //    protected void configure(AuthenticationManagerBuilder auth) throws Exception {
 //        /*
