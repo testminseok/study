@@ -44,6 +44,6 @@ public class SecurityConfig {
         * /favicon.ico 는 FilterChainProxy 에서 AccessDeniedException 이 발생되어 처리된다.
         * 때문에 Static Resource 는 SpringSecurity 에서 확인 하지 않도록 WebSecurity 로 ignore 처리한다.
         * */
-        return web -> web.ignoring().requestMatchers(PathRequest.toStaticResources().atCommonLocations().);
+        return web -> web.ignoring().requestMatchers(PathRequest.toStaticResources().atCommonLocations());
     }
 }
