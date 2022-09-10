@@ -8,12 +8,19 @@ import org.springframework.security.web.SecurityFilterChain;
 @Configuration
 public class SecurityConfig {
 
+
     @Bean
     public SecurityFilterChain configure(HttpSecurity http) throws Exception {
+        /*
+        * SpringSecurity FilterSecurityInterceptor 에서 AuthorizationFilter 로 교체 중 이다.
+        * 기본적으로 하위호환성 을 위해 FilterSecurityInterceptor 를 지원한다.
+        * AuthorizationFilter 에서는 AccessDecisionManager 를 사용하지 않는다.
+        * FilterSecurityInterceptor 처럼 AuthorizationFilter 도 SecurityFilterChain 의 가장 마지막에 위치한다.
+        * */
         http.authorizeHttpRequests()
                 .mvcMatchers("/", "/info", "/account/**").permitAll()
                 .mvcMatchers("/admin").hasRole("ADMIN")
-                .mvcMatchers("/user").hasRole("USER")
+                .mvcMatchers("/user").hasAnyRole("USER", "ADMIN")
                 .anyRequest().authenticated();
 
         http.formLogin();

@@ -45,6 +45,9 @@ public class SampleService {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         Object principal = authentication.getPrincipal();
         Collection<? extends GrantedAuthority> authorities = authentication.getAuthorities();
+        for (GrantedAuthority authority : authorities) {
+            System.out.println(authority.getAuthority());
+        }
         Object credentials = authentication.getCredentials();
         boolean authenticated = authentication.isAuthenticated();
     }

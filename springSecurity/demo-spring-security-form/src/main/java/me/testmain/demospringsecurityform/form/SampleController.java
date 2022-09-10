@@ -9,7 +9,6 @@ import java.security.Principal;
 @Controller
 public class SampleController {
 
-
     private final SampleService sampleService;
 
     public SampleController(SampleService sampleService) {
@@ -50,5 +49,9 @@ public class SampleController {
         return "admin";
     }
 
-
+    @GetMapping("/user")
+    public String user(Model model, Principal principal) {
+        model.addAttribute("message", "Hello user, " + principal.getName());
+        return "user";
+    }
 }
