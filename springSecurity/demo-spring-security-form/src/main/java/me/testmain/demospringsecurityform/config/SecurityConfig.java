@@ -16,6 +16,12 @@ public class SecurityConfig {
         * 기본적으로 하위호환성 을 위해 FilterSecurityInterceptor 를 지원한다.
         * AuthorizationFilter 에서는 AccessDecisionManager 를 사용하지 않는다.
         * FilterSecurityInterceptor 처럼 AuthorizationFilter 도 SecurityFilterChain 의 가장 마지막에 위치한다.
+        *
+        * 권한이 필요한 페이지를 익명사용자가 요청하면 /login 으로 가게 되는 이유는 아래와 같다.
+        * FilterChain 에서 발생하는 AccessDeniedException 과 AuthenticationException 은
+        * ExceptionTranslationFilter 에서 처리한다.
+        * 하지만, UsernamePasswordAuthenticationFilter 에서 발생한 AccessDeniedException 은
+        * UsernamePasswordAuthenticationFilter 내부에서 처리한다.
         * */
         http.authorizeHttpRequests()
                 .mvcMatchers("/", "/info", "/account/**").permitAll()
