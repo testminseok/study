@@ -21,6 +21,11 @@ public class SecurityConfig {
         * HstsHeaderWriter : HTTPS 로만 소통하도록 강제.
         * XFrameOptionsHeaderWriter : clickjacking 방어
         *
+        * CsrfFilter 는 Csrf 어택을 방어하기 위한 필터이다. (Cross-Site Request Forgery)
+        * 브라우저에서도 현재 요청을 보내는곳이 현재 도메인과 일치해야만 요청을 보낸다.
+        * Spring Security 에서는 Resource 를 변경하는 요청에 대해서는 서버에서 발급한 CSRF Token 을 사용하여 방지한다.
+        * HttpSession 에 CSRF_TOKEN 값을 저장한 뒤 form 요청에 대한 CSRF_TOKEN 값과 비교하여 확인한다.
+        *
         * SpringSecurity FilterSecurityInterceptor 에서 AuthorizationFilter 로 교체 중 이다.
         * 기본적으로 하위호환성 을 위해 FilterSecurityInterceptor 를 지원한다.
         * AuthorizationFilter 에서는 AccessDecisionManager 를 사용하지 않는다.
