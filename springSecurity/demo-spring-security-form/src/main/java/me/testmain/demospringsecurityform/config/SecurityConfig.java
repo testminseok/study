@@ -14,6 +14,13 @@ public class SecurityConfig {
     @Bean
     public SecurityFilterChain configure(HttpSecurity http) throws Exception {
         /*
+        * HeaderWriteFilter 는 응답 헤더에 시큐리티 관련 헤더를 추가해준다.
+        * XContentTypeOptionsHeaderWriter : Mine Type 스니핑 방어.
+        * XXssProtectionHeaderWriter : 브라우저에 내장된 XSS 필터 적용.
+        * CacheControlHeadersWriter : 캐스 히스토리 취약점 방어.
+        * HstsHeaderWriter : HTTPS 로만 소통하도록 강제.
+        * XFrameOptionsHeaderWriter : clickjacking 방어
+        *
         * SpringSecurity FilterSecurityInterceptor 에서 AuthorizationFilter 로 교체 중 이다.
         * 기본적으로 하위호환성 을 위해 FilterSecurityInterceptor 를 지원한다.
         * AuthorizationFilter 에서는 AccessDecisionManager 를 사용하지 않는다.
