@@ -26,6 +26,14 @@ public class SecurityConfig {
         * Spring Security 에서는 Resource 를 변경하는 요청에 대해서는 서버에서 발급한 CSRF Token 을 사용하여 방지한다.
         * HttpSession 에 CSRF_TOKEN 값을 저장한 뒤 form 요청에 대한 CSRF_TOKEN 값과 비교하여 확인한다.
         *
+        * LogoutFilter 는 Logout 을 담당하는 필터이다.
+        * Logout 처리 또는 성공 후 처리를 설정할 수 있다.
+        *
+        * UsernamePasswordAuthenticationFilter 는 Form 로그인은 담당하는 필터이다.
+        * AuthenticationManager 를 사용하여 인증 처리를 진행하며, 기본 제공자인 ProviderManager 를 사용하여
+        * AuthenticationProvider 를 확장한 DaoAuthenticationProvider 를 통해 인증을 하게 되고,
+        * UserDetailsService 의 타입으로 등록된 Bean 이 DaoAuthenticationProvider 에서 진행되는 인증을 처리한다.
+        *
         * SpringSecurity FilterSecurityInterceptor 에서 AuthorizationFilter 로 교체 중 이다.
         * 기본적으로 하위호환성 을 위해 FilterSecurityInterceptor 를 지원한다.
         * AuthorizationFilter 에서는 AccessDecisionManager 를 사용하지 않는다.
@@ -45,6 +53,8 @@ public class SecurityConfig {
 
         http.formLogin();
         http.httpBasic();
+
+        http.logout().logoutSuccessUrl("/");
 
         return http.build();
     }
