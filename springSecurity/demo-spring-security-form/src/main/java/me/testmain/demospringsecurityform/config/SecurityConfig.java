@@ -39,6 +39,10 @@ public class SecurityConfig {
         * 요청을 보내야한다. HttpHeader 에 인증에 필요한 정보가 노출되기 때문에 보안에 취약하며, 반드시 HTTPS 로 해당 요청을 처리해야한다.
         * 또한 HttpBasic 인증은 Form 을 통한 요청과는 다르게 SecurityContext 정보를 저장하지 않기 때문에 매 요청마다 Basic 에 사용자 인증정보를 보내야한다.
         * 
+        * RequestCacheAwareFilter 는 현재 요청과 관련있는 캐시된 요청이 있는지 찾아서 적용한다.
+        * ex) 사용자 권한이 필요한 페이지(/dashboard)를 익명사용자가 요청하였을때 /login 화면으로 이동된다. 이때 /dashboard 로 온 요청을 캐싱해둔다.
+        *  로그인 완료시 처음 캐싱된 Request 를 사용하여 /dashboard 의 요청을 처리한다.
+        * 
         * DefaultLoginPageGeneratingFilter 는 Spring Security 에서 기본으로 제공하는 login 페이지를 설정해준다.
         * http.formLogin().loginPage("/login"); 처럼 Custom 한 login 페이지를 제공할 수 있는데, 
         * 이러한 경우 DefaultLoginPageGeneratingFilter 는 FilterChainProxy 에서 제외 된다. 
