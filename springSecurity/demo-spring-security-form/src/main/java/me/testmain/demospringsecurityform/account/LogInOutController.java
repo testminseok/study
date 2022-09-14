@@ -13,4 +13,9 @@ public class LogInOutController {
 		 * */
 		return "login"; 
 	}
+	
+	@GetMapping("/logout")
+	public String logoutForm() {
+		return "logout"; 
+	}
 }
