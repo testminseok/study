@@ -34,6 +34,11 @@ public class SecurityConfig {
         * AuthenticationProvider 를 확장한 DaoAuthenticationProvider 를 통해 인증을 하게 되고,
         * UserDetailsService 의 타입으로 등록된 Bean 이 DaoAuthenticationProvider 에서 진행되는 인증을 처리한다.
         * 
+        * BasicAuthenticationFilter HttpBasic 의 처리를 담당하는 Filter
+        * HttpBasic 을 사용하여 인증을 하기 위해선 HttpHeader 에 Authorization Basic Base64.encode("username:password") 의 형태로
+        * 요청을 보내야한다. HttpHeader 에 인증에 필요한 정보가 노출되기 때문에 보안에 취약하며, 반드시 HTTPS 로 해당 요청을 처리해야한다.
+        * 또한 HttpBasic 인증은 Form 을 통한 요청과는 다르게 SecurityContext 정보를 저장하지 않기 때문에 매 요청마다 Basic 에 사용자 인증정보를 보내야한다.
+        * 
         * DefaultLoginPageGeneratingFilter 는 Spring Security 에서 기본으로 제공하는 login 페이지를 설정해준다.
         * http.formLogin().loginPage("/login"); 처럼 Custom 한 login 페이지를 제공할 수 있는데, 
         * 이러한 경우 DefaultLoginPageGeneratingFilter 는 FilterChainProxy 에서 제외 된다. 
@@ -56,9 +61,9 @@ public class SecurityConfig {
                 .mvcMatchers("/user").hasAnyRole("USER", "ADMIN")
                 .anyRequest().authenticated();
 
-        http.formLogin()
-        	.loginPage("/login")
-        	.permitAll();
+//        http.formLogin()
+//        	.loginPage("/login")
+//        	.permitAll();
         
         http.httpBasic(); // Http Basic 을 허용한다. 이때 Https 를 사용해야 보안에 취약하지 않다.
 
