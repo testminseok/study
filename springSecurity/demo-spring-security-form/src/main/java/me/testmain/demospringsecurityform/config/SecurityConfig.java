@@ -56,10 +56,13 @@ public class SecurityConfig {
                 .mvcMatchers("/user").hasAnyRole("USER", "ADMIN")
                 .anyRequest().authenticated();
 
-        http.formLogin();
-        http.httpBasic();
+        http.formLogin()
+        	.loginPage("/login")
+        	.permitAll();
+        
+        http.httpBasic(); // Http Basic 을 허용한다. 이때 Https 를 사용해야 보안에 취약하지 않다.
 
-        http.logout().logoutSuccessUrl("/");
+        http.logout().logoutSuccessUrl("/"); // 로그아웃 성공시 "/" 페이지로 이동
 
         return http.build();
     }
