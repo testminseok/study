@@ -33,6 +33,11 @@ public class SecurityConfig {
         * AuthenticationManager 를 사용하여 인증 처리를 진행하며, 기본 제공자인 ProviderManager 를 사용하여
         * AuthenticationProvider 를 확장한 DaoAuthenticationProvider 를 통해 인증을 하게 되고,
         * UserDetailsService 의 타입으로 등록된 Bean 이 DaoAuthenticationProvider 에서 진행되는 인증을 처리한다.
+        * 
+        * DefaultLoginPageGeneratingFilter 는 Spring Security 에서 기본으로 제공하는 login 페이지를 설정해준다.
+        * http.formLogin().loginPage("/login"); 처럼 Custom 한 login 페이지를 제공할 수 있는데, 
+        * 이러한 경우 DefaultLoginPageGeneratingFilter 는 FilterChainProxy 에서 제외 된다. 
+        * 또한 DefaultLogoutPageGeneratingFilter 도 제외되며, logout 페이지도 Custom 한 페이지를 제공해야한다.
         *
         * SpringSecurity FilterSecurityInterceptor 에서 AuthorizationFilter 로 교체 중 이다.
         * 기본적으로 하위호환성 을 위해 FilterSecurityInterceptor 를 지원한다.
