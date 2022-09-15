@@ -49,6 +49,9 @@ public class SecurityConfig {
         * - HttpServletRequest#logout
         * - AsyncContext#start 
         * 
+        * AnonymousAuthenticationFilter 는 익명사용자가 요청했을때 처리를 담당한다.
+        * SecurityContext 가 null 일경우에 AnonymousAuthenticationToken 을 SecurityContext 에 저장한다.
+        * 
         * DefaultLoginPageGeneratingFilter 는 Spring Security 에서 기본으로 제공하는 login 페이지를 설정해준다.
         * http.formLogin().loginPage("/login"); 처럼 Custom 한 login 페이지를 제공할 수 있는데, 
         * 이러한 경우 DefaultLoginPageGeneratingFilter 는 FilterChainProxy 에서 제외 된다. 
