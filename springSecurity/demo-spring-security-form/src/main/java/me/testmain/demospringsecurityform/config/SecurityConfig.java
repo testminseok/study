@@ -42,6 +42,12 @@ public class SecurityConfig {
         * RequestCacheAwareFilter 는 현재 요청과 관련있는 캐시된 요청이 있는지 찾아서 적용한다.
         * ex) 사용자 권한이 필요한 페이지(/dashboard)를 익명사용자가 요청하였을때 /login 화면으로 이동된다. 이때 /dashboard 로 온 요청을 캐싱해둔다.
         *  로그인 완료시 처음 캐싱된 Request 를 사용하여 /dashboard 의 요청을 처리한다.
+        *  
+        * SecurityContextHolderawareRequestFilter 는 시큐리티 관련 서블릿 API 를 구현을 담당한다.
+        * - HttpServletRequest#authenticate
+        * - HttpServletRequest#login
+        * - HttpServletRequest#logout
+        * - AsyncContext#start 
         * 
         * DefaultLoginPageGeneratingFilter 는 Spring Security 에서 기본으로 제공하는 login 페이지를 설정해준다.
         * http.formLogin().loginPage("/login"); 처럼 Custom 한 login 페이지를 제공할 수 있는데, 
