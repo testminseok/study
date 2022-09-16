@@ -60,6 +60,11 @@ public class SecurityConfig {
         * SessionManagementFilter 는 세션의 검증을 담당한다.
         * 세션 변조 방지 전략 설정을 할 수 있다. 기본설정된 값은 서블릿 버전에 따라 다른데
         * 버전이 3.1 이상일 경우 changeSessionId 를 사용한다.
+        * 
+        * ExceptionTranslationFilter 는 filters 에서 오류가 발생했을때 처리를 담당한다.
+        * AuthorizationFilter 에서 AuthenticationException 과 AccessDeniedException 가 발생했을때 처리를한다.
+        * AuthenticationException 는 AuthenticationEntryPoint 를 사용하여 인증이 가능한 페이지로 이동시킨다.
+        * AccessDeniedException 는 AccessDeniedHandler 를 사용하여 처리를 담당한다. (403 error 페이지)
         *
         * SpringSecurity FilterSecurityInterceptor 에서 AuthorizationFilter 로 교체 중 이다.
         * 기본적으로 하위호환성 을 위해 FilterSecurityInterceptor 를 지원한다.
