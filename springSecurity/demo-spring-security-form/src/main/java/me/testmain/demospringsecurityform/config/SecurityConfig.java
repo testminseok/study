@@ -5,6 +5,9 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityCustomizer;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.web.SecurityFilterChain;
 
 @Configuration
@@ -83,10 +86,19 @@ public class SecurityConfig {
                 .mvcMatchers("/user").hasAnyRole("USER", "ADMIN")
                 .anyRequest().authenticated();
 
-//        http.formLogin()
-//        	.loginPage("/login")
-//        	.permitAll();
-        
+        http.formLogin()
+        	.loginPage("/login")
+        	.permitAll();
+
+        http.exceptionHandling()
+                .accessDeniedHandler((request, response, accessDeniedException) -> {
+                    Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+                    UserDetails userDetails = (UserDetails) authentication.getPrincipal();
+
+                    System.out.println(userDetails.getUsername() + " is denied to access " + request.getRequestURI());
+                    response.sendRedirect("/access-denied");
+                });
+
         http.httpBasic(); // Http Basic 을 허용한다. 이때 Https 를 사용해야 보안에 취약하지 않다.
 
         http.logout().logoutSuccessUrl("/"); // 로그아웃 성공시 "/" 페이지로 이동
