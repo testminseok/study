@@ -1,5 +1,6 @@
 package me.testmain.demospringsecurityform.config;
 
+import me.testmain.demospringsecurityform.common.LoggingFilter;
 import org.springframework.boot.autoconfigure.security.servlet.PathRequest;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -9,6 +10,7 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.web.SecurityFilterChain;
+import org.springframework.security.web.context.request.async.WebAsyncManagerIntegrationFilter;
 
 @Configuration
 public class SecurityConfig {
@@ -102,6 +104,8 @@ public class SecurityConfig {
         http.httpBasic(); // Http Basic 을 허용한다. 이때 Https 를 사용해야 보안에 취약하지 않다.
 
         http.logout().logoutSuccessUrl("/"); // 로그아웃 성공시 "/" 페이지로 이동
+
+        http.addFilterBefore(new LoggingFilter(), WebAsyncManagerIntegrationFilter.class);
 
         return http.build();
     }
