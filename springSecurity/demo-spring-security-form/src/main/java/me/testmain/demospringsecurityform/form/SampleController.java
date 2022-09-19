@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import me.testmain.demospringsecurityform.account.Account;
+import me.testmain.demospringsecurityform.book.BookRepository;
 import me.testmain.demospringsecurityform.common.CurrentUser;
 import me.testmain.demospringsecurityform.common.SecurityLogger;
 
@@ -17,9 +18,12 @@ import me.testmain.demospringsecurityform.common.SecurityLogger;
 public class SampleController {
 
     private final SampleService sampleService;
+    
+    private final BookRepository bookRepository;
 
-    public SampleController(SampleService sampleService) {
+    public SampleController(SampleService sampleService, BookRepository bookRepository) {
         this.sampleService = sampleService;
+		this.bookRepository = bookRepository;
     }
 
     /*
@@ -69,6 +73,7 @@ public class SampleController {
     @GetMapping("/user")
     public String user(Model model, Principal principal) {
         model.addAttribute("message", "Hello user, " + principal.getName());
+        model.addAttribute("books", bookRepository.findCurrentUserBook());
         return "user";
     }
 
