@@ -1,13 +1,17 @@
 package me.testmain.demospringsecurityform.form;
 
-import me.testmain.demospringsecurityform.common.SecurityLogger;
+import java.security.Principal;
+import java.util.concurrent.Callable;
+
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import java.security.Principal;
-import java.util.concurrent.Callable;
+import me.testmain.demospringsecurityform.account.Account;
+import me.testmain.demospringsecurityform.common.CurrentUser;
+import me.testmain.demospringsecurityform.common.SecurityLogger;
 
 @Controller
 public class SampleController {
@@ -21,13 +25,23 @@ public class SampleController {
     /*
     * Principal 의 구현체를 Spring Security 가 현재 인증된 사용자라면 그 정보를 담아
     * Spring MVC Handler 에 받아서 사용할 수 있게 값을 넘겨준다.
+    * 
+    * - UserDetailsService 에서 return 해주는 객체를 @AuthenticationPrincipal 로 가져올 수 있다.
+    * public String index(Model model, Principal principal)
+    * 	- java 에서 제공하는 Principal 객체를 사용한다.
+    * public String index(Model model, @AuthenticationPrincipal UserAccount userAccount)
+    * 	- UserDetailsService 에서 return 하는 객체를 사용한다.
+    * public String index(Model model, @AuthenticationPrincipal(expression = "#this == 'anonymousUser' ? null : account") Account account)
+    *   - 익명사용자가 아니라면 UserDetailsService 에서 return 하는 객체의 Account Field 를 가져온다.
+    * public String index(Model model, @CurrentUser Account account)
+    *   - Custom 한 Annotation 을 만들어 간략하게 사용할 수 있다.
     * */
     @GetMapping("/")
-    public String index(Model model, Principal principal) {
-        if (principal == null) {
+    public String index(Model model, @CurrentUser Account account) {
+        if (account == null) {
             model.addAttribute("message", "Hello Spring Security");
         } else {
-            model.addAttribute("message", "Hello, " + principal.getName());
+            model.addAttribute("message", "Hello, " + account.getUsername());
         }
 
         return "index";
