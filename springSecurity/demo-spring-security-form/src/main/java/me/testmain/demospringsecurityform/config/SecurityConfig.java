@@ -1,6 +1,7 @@
 package me.testmain.demospringsecurityform.config;
 
 import me.testmain.demospringsecurityform.common.LoggingFilter;
+import me.testmain.demospringsecurityform.config.oauth.PrincipalOAuth2UserService;
 import org.springframework.boot.autoconfigure.security.servlet.PathRequest;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -17,6 +18,11 @@ import org.springframework.security.web.context.request.async.WebAsyncManagerInt
 @Configuration
 public class SecurityConfig {
 
+    private final PrincipalOAuth2UserService principalOAuth2UserService;
+
+    public SecurityConfig(PrincipalOAuth2UserService principalOAuth2UserService) {
+        this.principalOAuth2UserService = principalOAuth2UserService;
+    }
 
     @Bean
     public SecurityFilterChain configure(HttpSecurity http) throws Exception {
@@ -108,6 +114,20 @@ public class SecurityConfig {
         http.logout().logoutSuccessUrl("/"); // 로그아웃 성공시 "/" 페이지로 이동
 
         http.addFilterBefore(new LoggingFilter(), WebAsyncManagerIntegrationFilter.class);
+
+        /*
+        * 1. 코드받기(인증)
+        * 2. 엑서스토큰(권한)
+        * 3. 사용자프로필 정보를 가져오고
+        * 4-1. 그 정보를 토대로 회원가입을 자동으로 진행시키기도함.
+        * 4.2. (이메일, 전화번호, 이름, 아이디)를 가져왔지만 추가적으로 데이터가 필요하다면, 회원가입을 완료하지 않고 추가 정보를 받아한다.
+        * */
+        http.oauth2Login(oAuth2LoginConfigurer -> {
+            oAuth2LoginConfigurer.loginPage("/login");
+            oAuth2LoginConfigurer.userInfoEndpoint(userInfoEndpointConfig -> {
+                userInfoEndpointConfig.userService(principalOAuth2UserService); // 사용자 인증 완료한 뒤 후 처리를 담당한다.
+            });
+        });
 
         return http.build();
     }
