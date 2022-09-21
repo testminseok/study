@@ -1,18 +1,19 @@
 package me.testmain.demospringsecurityform.form;
 
-import java.security.Principal;
-import java.util.concurrent.Callable;
-
-import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import me.testmain.demospringsecurityform.account.Account;
+import me.testmain.demospringsecurityform.book.BookRepository;
+import me.testmain.demospringsecurityform.common.CurrentUser;
+import me.testmain.demospringsecurityform.common.SecurityLogger;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.oauth2.core.user.OAuth2User;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import me.testmain.demospringsecurityform.account.Account;
-import me.testmain.demospringsecurityform.book.BookRepository;
-import me.testmain.demospringsecurityform.common.CurrentUser;
-import me.testmain.demospringsecurityform.common.SecurityLogger;
+import java.security.Principal;
+import java.util.concurrent.Callable;
 
 @Controller
 public class SampleController {
@@ -58,8 +59,18 @@ public class SampleController {
     }
 
     @GetMapping("/dashboard")
-    public String dashboard(Model model, Principal principal) {
-        model.addAttribute("message", "Hello, " + principal.getName());
+    public String dashboard(Model model, Authentication authentication) {
+        /*
+        * OAuth2 로 인증한 사람은 principal 이 OAuth2User 타입으로 형변환 할 수 있다.
+        * spring security context 에 authentication 객체에 들어 갈 수 있는 타입은 UserDetails 타입과 OAuth2User 타입이 있다.
+        * */
+        if (OAuth2User.class.isAssignableFrom(authentication.getPrincipal().getClass())) {
+            OAuth2User principal = (OAuth2User) authentication.getPrincipal();
+            model.addAttribute("message", "Hello, " + principal.getName());
+        } else {
+            UserDetails principal = (UserDetails) authentication.getPrincipal();
+            model.addAttribute("message", "Hello, " + principal.getUsername());
+        }
         sampleService.dashboard();
         return "dashboard";
     }
