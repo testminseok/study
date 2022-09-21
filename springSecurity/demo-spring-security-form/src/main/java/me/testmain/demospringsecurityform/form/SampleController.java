@@ -1,12 +1,9 @@
 package me.testmain.demospringsecurityform.form;
 
-import me.testmain.demospringsecurityform.account.Account;
+import me.testmain.demospringsecurityform.account.UserAccount;
 import me.testmain.demospringsecurityform.book.BookRepository;
-import me.testmain.demospringsecurityform.common.CurrentUser;
 import me.testmain.demospringsecurityform.common.SecurityLogger;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.security.oauth2.core.user.OAuth2User;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -40,13 +37,16 @@ public class SampleController {
     *   - 익명사용자가 아니라면 UserDetailsService 에서 return 하는 객체의 Account Field 를 가져온다.
     * public String index(Model model, @CurrentUser Account account)
     *   - Custom 한 Annotation 을 만들어 간략하게 사용할 수 있다.
+    * public String index(Model model, @AuthenticationPrincipal UserAccount userAccount)
+    *   - OAuth2 를 사용할 때에는 Principal 객체가 OAuth2User 타입이기 때문에 UserDetails 와 OAuth2User 를 상속받은
+    *       UserAccount 객체를 사용
     * */
     @GetMapping("/")
-    public String index(Model model, @CurrentUser Account account) {
-        if (account == null) {
+    public String index(Model model, @AuthenticationPrincipal UserAccount userAccount) {
+        if (userAccount == null) {
             model.addAttribute("message", "Hello Spring Security");
         } else {
-            model.addAttribute("message", "Hello, " + account.getUsername());
+            model.addAttribute("message", "Hello, " + userAccount.getUsername());
         }
 
         return "index";
@@ -59,18 +59,19 @@ public class SampleController {
     }
 
     @GetMapping("/dashboard")
-    public String dashboard(Model model, Authentication authentication) {
+    public String dashboard(Model model, @AuthenticationPrincipal UserAccount userAccount) {
         /*
         * OAuth2 로 인증한 사람은 principal 이 OAuth2User 타입으로 형변환 할 수 있다.
         * spring security context 에 authentication 객체에 들어 갈 수 있는 타입은 UserDetails 타입과 OAuth2User 타입이 있다.
         * */
-        if (OAuth2User.class.isAssignableFrom(authentication.getPrincipal().getClass())) {
+        /*if (OAuth2User.class.isAssignableFrom(authentication.getPrincipal().getClass())) {
             OAuth2User principal = (OAuth2User) authentication.getPrincipal();
             model.addAttribute("message", "Hello, " + principal.getName());
         } else {
             UserDetails principal = (UserDetails) authentication.getPrincipal();
             model.addAttribute("message", "Hello, " + principal.getUsername());
-        }
+        }*/
+        model.addAttribute("message", userAccount.getUsername());
         sampleService.dashboard();
         return "dashboard";
     }
