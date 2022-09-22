@@ -1,7 +1,7 @@
 package me.testmain.demospringsecurityform.config;
 
 import me.testmain.demospringsecurityform.common.LoggingFilter;
-import me.testmain.demospringsecurityform.config.oauth.PrincipalOAuth2UserService;
+import me.testmain.demospringsecurityform.oauth.PrincipalOAuth2UserService;
 import org.springframework.boot.autoconfigure.security.servlet.PathRequest;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;

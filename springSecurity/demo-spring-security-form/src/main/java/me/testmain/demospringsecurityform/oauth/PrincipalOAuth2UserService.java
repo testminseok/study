@@ -1,14 +1,19 @@
-package me.testmain.demospringsecurityform.config.oauth;
+package me.testmain.demospringsecurityform.oauth;
 
 import me.testmain.demospringsecurityform.account.Account;
 import me.testmain.demospringsecurityform.account.AccountRepository;
 import me.testmain.demospringsecurityform.account.UserAccount;
+import me.testmain.demospringsecurityform.oauth.provider.GoogleUserInfo;
+import me.testmain.demospringsecurityform.oauth.provider.NaverUserInfo;
+import me.testmain.demospringsecurityform.oauth.provider.OAuth2UserInfo;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.oauth2.client.userinfo.DefaultOAuth2UserService;
 import org.springframework.security.oauth2.client.userinfo.OAuth2UserRequest;
 import org.springframework.security.oauth2.core.OAuth2AuthenticationException;
 import org.springframework.security.oauth2.core.user.OAuth2User;
 import org.springframework.stereotype.Service;
+
+import java.util.Map;
 
 @Service
 public class PrincipalOAuth2UserService extends DefaultOAuth2UserService {
@@ -29,10 +34,14 @@ public class PrincipalOAuth2UserService extends DefaultOAuth2UserService {
     public OAuth2User loadUser(OAuth2UserRequest userRequest) throws OAuth2AuthenticationException {
         OAuth2User oAuth2User = super.loadUser(userRequest);
 
-        String provider = userRequest.getClientRegistration().getRegistrationId();
-        String providerId = oAuth2User.getAttribute("sub");
-        String username = provider + "_" + providerId;
+        System.out.println("ClientRegistration : " + userRequest.getClientRegistration());
+        System.out.println("ClientRegistration : " + userRequest.getClientRegistration().getProviderDetails());
+        System.out.println("accessToken : " + userRequest.getAccessToken());
+        System.out.println("attributes : " + oAuth2User.getAttributes());
 
+        String registrationId = userRequest.getClientRegistration().getRegistrationId();
+        OAuth2UserInfo oAuth2UserInfo = oAuth2UserInfo(registrationId, oAuth2User.getAttributes());
+        String username = oAuth2UserInfo.getName();
         /*
         * OAuth2 인증 사용자의 경우 비밀번호를 통한 로그인을 진행하지 않기 때문에 비밀번호에 값이 무엇이 들어있든 상관이 없다.
         * */
@@ -55,5 +64,17 @@ public class PrincipalOAuth2UserService extends DefaultOAuth2UserService {
         * OAuth2 인증 사용자와 form 인증 사용자를 같이 사용하기 위한 객체
         * */
         return new UserAccount(account, oAuth2User.getAttributes());
+    }
+
+    private OAuth2UserInfo oAuth2UserInfo(String registrationId, Map<String, Object> attributes) {
+        if (registrationId.equals("google")) {
+            System.out.println("구글 로그인 요청");
+            return new GoogleUserInfo(attributes);
+        } else if (registrationId.equals("naver")) {
+            System.out.println("네이버 로그인 요청");
+            return new NaverUserInfo((Map<String, Object>) attributes.get("response"));
+        }
+
+        throw new OAuth2AuthenticationException("is not support login type");
     }
 }
