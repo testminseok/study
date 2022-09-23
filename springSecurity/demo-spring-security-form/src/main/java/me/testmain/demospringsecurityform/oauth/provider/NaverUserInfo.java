@@ -2,19 +2,21 @@ package me.testmain.demospringsecurityform.oauth.provider;
 
 import java.util.Map;
 
+/**
+ * OAuth2 인증 된 OAuth2User 객체의 Naver 사용자 데이터 추출 클래스
+ * */
 public class NaverUserInfo implements OAuth2UserInfo {
+
+    public static final String REGISTRATION_ID = "naver";
 
     private static final String PROVIDER_ID = "id";
 
-    private static final String PROVIDER = "naver";
-
     private static final String EMAIL = "email";
 
-    private static final String USERNAME = "name";
     private Map<String, Object> attributes;
 
     public NaverUserInfo(Map<String, Object> attributes) {
-        this.attributes = attributes;
+        this.attributes = (Map<String, Object>) attributes.get("response");
     }
 
     @Override
@@ -23,8 +25,8 @@ public class NaverUserInfo implements OAuth2UserInfo {
     }
 
     @Override
-    public String getProvider() {
-        return PROVIDER;
+    public String getRegistrationId() {
+        return REGISTRATION_ID;
     }
 
     @Override
@@ -34,6 +36,6 @@ public class NaverUserInfo implements OAuth2UserInfo {
 
     @Override
     public String getName() {
-        return PROVIDER + "_" + getProviderId();
+        return REGISTRATION_ID + "_" + getProviderId();
     }
 }

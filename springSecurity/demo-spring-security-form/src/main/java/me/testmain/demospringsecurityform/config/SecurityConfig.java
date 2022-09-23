@@ -1,7 +1,7 @@
 package me.testmain.demospringsecurityform.config;
 
 import me.testmain.demospringsecurityform.common.LoggingFilter;
-import me.testmain.demospringsecurityform.oauth.PrincipalOAuth2UserService;
+import me.testmain.demospringsecurityform.oauth.AccountOAuth2UserService;
 import org.springframework.boot.autoconfigure.security.servlet.PathRequest;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -18,10 +18,10 @@ import org.springframework.security.web.context.request.async.WebAsyncManagerInt
 @Configuration
 public class SecurityConfig {
 
-    private final PrincipalOAuth2UserService principalOAuth2UserService;
+    private final AccountOAuth2UserService accountOAuth2UserService;
 
-    public SecurityConfig(PrincipalOAuth2UserService principalOAuth2UserService) {
-        this.principalOAuth2UserService = principalOAuth2UserService;
+    public SecurityConfig(AccountOAuth2UserService accountOAuth2UserService) {
+        this.accountOAuth2UserService = accountOAuth2UserService;
     }
 
     @Bean
@@ -125,7 +125,7 @@ public class SecurityConfig {
         http.oauth2Login(oAuth2LoginConfigurer -> {
             oAuth2LoginConfigurer.loginPage("/login");
             oAuth2LoginConfigurer.userInfoEndpoint(userInfoEndpointConfig -> {
-                userInfoEndpointConfig.userService(principalOAuth2UserService); // 사용자 인증 완료한 뒤 후 처리를 담당한다.
+                userInfoEndpointConfig.userService(accountOAuth2UserService); // 사용자 인증 완료한 뒤 후 처리를 담당한다.
             });
         });
 

@@ -1,12 +1,11 @@
 package me.testmain.demospringsecurityform.oauth;
 
 import me.testmain.demospringsecurityform.account.Account;
-import me.testmain.demospringsecurityform.account.AccountRepository;
+import me.testmain.demospringsecurityform.account.AccountService;
 import me.testmain.demospringsecurityform.account.UserAccount;
 import me.testmain.demospringsecurityform.oauth.provider.GoogleUserInfo;
 import me.testmain.demospringsecurityform.oauth.provider.NaverUserInfo;
 import me.testmain.demospringsecurityform.oauth.provider.OAuth2UserInfo;
-import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.oauth2.client.userinfo.DefaultOAuth2UserService;
 import org.springframework.security.oauth2.client.userinfo.OAuth2UserRequest;
 import org.springframework.security.oauth2.core.OAuth2AuthenticationException;
@@ -16,15 +15,12 @@ import org.springframework.stereotype.Service;
 import java.util.Map;
 
 @Service
-public class PrincipalOAuth2UserService extends DefaultOAuth2UserService {
+public class AccountOAuth2UserService extends DefaultOAuth2UserService {
 
-    private final AccountRepository accountRepository;
+    private final AccountService accountService;
 
-    private final PasswordEncoder passwordEncoder;
-
-    public PrincipalOAuth2UserService(AccountRepository accountRepository, PasswordEncoder passwordEncoder) {
-        this.accountRepository = accountRepository;
-        this.passwordEncoder = passwordEncoder;
+    public AccountOAuth2UserService(AccountService accountService) {
+        this.accountService = accountService;
     }
 
     /*
@@ -42,6 +38,7 @@ public class PrincipalOAuth2UserService extends DefaultOAuth2UserService {
         String registrationId = userRequest.getClientRegistration().getRegistrationId();
         OAuth2UserInfo oAuth2UserInfo = oAuth2UserInfo(registrationId, oAuth2User.getAttributes());
         String username = oAuth2UserInfo.getName();
+
         /*
         * OAuth2 인증 사용자의 경우 비밀번호를 통한 로그인을 진행하지 않기 때문에 비밀번호에 값이 무엇이 들어있든 상관이 없다.
         * */
@@ -49,15 +46,14 @@ public class PrincipalOAuth2UserService extends DefaultOAuth2UserService {
         oAuth2Account.setUsername(username);
         oAuth2Account.setPassword(username);
         oAuth2Account.setRole("USER");
-        oAuth2Account.setEncodePassword(passwordEncoder);
 
         /*
         * 이미 가입된 사용자 인지 확인한다.
         * */
-        Account account = accountRepository.findByUsername(username);
+        Account account = accountService.findByUsername(username);
 
         if (account == null) {
-            account = accountRepository.save(oAuth2Account);
+            account = accountService.createNew(oAuth2Account);
         }
 
         /*
@@ -67,12 +63,12 @@ public class PrincipalOAuth2UserService extends DefaultOAuth2UserService {
     }
 
     private OAuth2UserInfo oAuth2UserInfo(String registrationId, Map<String, Object> attributes) {
-        if (registrationId.equals("google")) {
+        if (GoogleUserInfo.REGISTRATION_ID.equals(registrationId)) {
             System.out.println("구글 로그인 요청");
             return new GoogleUserInfo(attributes);
-        } else if (registrationId.equals("naver")) {
+        } else if (NaverUserInfo.REGISTRATION_ID.equals(registrationId)) {
             System.out.println("네이버 로그인 요청");
-            return new NaverUserInfo((Map<String, Object>) attributes.get("response"));
+            return new NaverUserInfo(attributes);
         }
 
         throw new OAuth2AuthenticationException("is not support login type");

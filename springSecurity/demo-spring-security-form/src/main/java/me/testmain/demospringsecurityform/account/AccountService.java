@@ -1,6 +1,5 @@
 package me.testmain.demospringsecurityform.account;
 
-import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
@@ -26,7 +25,7 @@ public class AccountService implements UserDetailsService {
 
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-        Account account = accountRepository.findByUsername(username);
+        Account account = findByUsername(username);
         if (account == null) {
             throw new UsernameNotFoundException(username + " is not found");
         }
@@ -45,5 +44,9 @@ public class AccountService implements UserDetailsService {
         * */
         account.setEncodePassword(passwordEncoder);
         return accountRepository.save(account);
+    }
+
+    public Account findByUsername(String username) {
+        return accountRepository.findByUsername(username);
     }
 }
