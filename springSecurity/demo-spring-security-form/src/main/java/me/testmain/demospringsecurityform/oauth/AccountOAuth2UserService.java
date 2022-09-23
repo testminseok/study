@@ -3,6 +3,7 @@ package me.testmain.demospringsecurityform.oauth;
 import me.testmain.demospringsecurityform.account.Account;
 import me.testmain.demospringsecurityform.account.AccountService;
 import me.testmain.demospringsecurityform.account.UserAccount;
+import me.testmain.demospringsecurityform.oauth.provider.GithubUserInfo;
 import me.testmain.demospringsecurityform.oauth.provider.GoogleUserInfo;
 import me.testmain.demospringsecurityform.oauth.provider.NaverUserInfo;
 import me.testmain.demospringsecurityform.oauth.provider.OAuth2UserInfo;
@@ -69,6 +70,9 @@ public class AccountOAuth2UserService extends DefaultOAuth2UserService {
         } else if (NaverUserInfo.REGISTRATION_ID.equals(registrationId)) {
             System.out.println("네이버 로그인 요청");
             return new NaverUserInfo(attributes);
+        } else if (GithubUserInfo.REGISTRATION_ID.equals(registrationId)) {
+            System.out.println("깃허브 로그인");
+            return new GithubUserInfo(attributes);
         }
 
         throw new OAuth2AuthenticationException("is not support login type");
