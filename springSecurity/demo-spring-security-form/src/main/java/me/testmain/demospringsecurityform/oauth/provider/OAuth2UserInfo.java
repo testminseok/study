@@ -1,5 +1,7 @@
 package me.testmain.demospringsecurityform.oauth.provider;
 
+import java.util.Map;
+
 /**
  * OAuth2를 통해 인증된 OAuth2User 의 데이터 추출 어뎁터 인터페이스
  * @see GoogleUserInfo
@@ -11,4 +13,6 @@ public interface OAuth2UserInfo {
     String getRegistrationId();
     String getEmail();
     String getName();
+
+    Map<String, Object> getAttributes();
 }

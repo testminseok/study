@@ -60,7 +60,7 @@ public class AccountOAuth2UserService extends DefaultOAuth2UserService {
         /*
         * OAuth2 인증 사용자와 form 인증 사용자를 같이 사용하기 위한 객체
         * */
-        return new UserAccount(account, oAuth2User.getAttributes());
+        return new UserAccount(account, oAuth2UserInfo);
     }
 
     private OAuth2UserInfo oAuth2UserInfo(String registrationId, Map<String, Object> attributes) {

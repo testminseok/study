@@ -38,4 +38,9 @@ public class GithubUserInfo implements OAuth2UserInfo {
     public String getName() {
         return REGISTRATION_ID + "_" + attributes.get("login") + "_" + getProviderId();
     }
+
+    @Override
+    public Map<String, Object> getAttributes() {
+        return attributes;
+    }
 }

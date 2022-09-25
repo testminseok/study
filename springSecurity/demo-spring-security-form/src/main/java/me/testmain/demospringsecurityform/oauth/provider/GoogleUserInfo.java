@@ -38,4 +38,9 @@ public class GoogleUserInfo implements OAuth2UserInfo {
     public String getName() {
         return REGISTRATION_ID + "_" + getProviderId();
     }
+
+    @Override
+    public Map<String, Object> getAttributes() {
+        return attributes;
+    }
 }
