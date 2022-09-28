@@ -1,10 +1,12 @@
 package com.testmin.jwtserver.config;
 
+import com.testmin.jwtserver.filter.CustomFilter;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.web.SecurityFilterChain;
+import org.springframework.security.web.context.request.async.WebAsyncManagerIntegrationFilter;
 import org.springframework.web.filter.CorsFilter;
 
 @Configuration
@@ -18,7 +20,7 @@ public class SecurityConfig {
 
     @Bean
     SecurityFilterChain config(HttpSecurity http) throws Exception {
-
+        http.addFilterBefore(new CustomFilter(), WebAsyncManagerIntegrationFilter.class);
         http.addFilter(corsFilter);
 
         /*
