@@ -2,6 +2,7 @@ package com.testmin.jwtserver.model;
 
 import lombok.Builder;
 import lombok.Getter;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -31,7 +32,9 @@ public class Account {
         this.roles = roles;
     }
 
-    public List<String> getRoles() {
-        return Arrays.stream(roles.split(",")).toList();
+    public List<SimpleGrantedAuthority> getRoles() {
+        return Arrays.stream(roles.split(","))
+                .map(role -> new SimpleGrantedAuthority("ROLE_" + role))
+                .toList();
     }
 }
