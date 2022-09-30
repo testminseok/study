@@ -1,10 +1,10 @@
 package com.testmin.jwtserver.config;
 
 import com.testmin.jwtserver.filter.CustomFilter;
+import com.testmin.jwtserver.filter.JwtAuthenticationFilter;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.AuthenticationManager;
-import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.web.SecurityFilterChain;
@@ -16,14 +16,20 @@ public class SecurityConfig {
 
     private final CorsFilter corsFilter;
 
-    public SecurityConfig(CorsFilter corsFilter) {
+    private final AuthenticationManager authenticationManager;
+
+    public SecurityConfig(CorsFilter corsFilter, AuthenticationManager authenticationManager) {
         this.corsFilter = corsFilter;
+        this.authenticationManager = authenticationManager;
     }
+
+
 
     @Bean
     SecurityFilterChain config(HttpSecurity http) throws Exception {
         http.addFilterBefore(new CustomFilter(), WebAsyncManagerIntegrationFilter.class);
         http.addFilter(corsFilter);
+        http.addFilter(new JwtAuthenticationFilter(authenticationManager));
 
         /*
         * 서버에서 Csrf token 을 사용하지 않음을 설정
@@ -64,12 +70,5 @@ public class SecurityConfig {
         });
 
         return http.build();
-    }
-
-    @Bean
-    AuthenticationManager authenticationManager() {
-        return authentication -> {
-            return new UsernamePasswordAuthenticationToken(authentication.getPrincipal(), authentication.getCredentials());
-        };
     }
 }
