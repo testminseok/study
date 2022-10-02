@@ -34,7 +34,7 @@ public class Account {
 
     public List<SimpleGrantedAuthority> getRoles() {
         return Arrays.stream(roles.split(","))
-                .map(role -> new SimpleGrantedAuthority("ROLE_" + role))
+                .map(role -> new SimpleGrantedAuthority(role))
                 .toList();
     }
 }

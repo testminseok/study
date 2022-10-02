@@ -25,7 +25,7 @@ public class CustomFilter extends GenericFilterBean {
             String authorization = req.getHeader(HttpHeaders.AUTHORIZATION);
             System.out.println(authorization);
 
-            if (authorization.equals("testmin")) {
+            if (authorization != null  && authorization.equals("testmin")) {
                 chain.doFilter(req, res);
             } else {
                 PrintWriter out = res.getWriter();

@@ -1,14 +1,14 @@
 package com.testmin.jwtserver.config;
 
-import com.testmin.jwtserver.filter.CustomFilter;
 import com.testmin.jwtserver.filter.JwtAuthenticationFilter;
+import com.testmin.jwtserver.filter.JwtAuthorizationFilter;
+import com.testmin.jwtserver.repository.AccountRepository;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.web.SecurityFilterChain;
-import org.springframework.security.web.context.request.async.WebAsyncManagerIntegrationFilter;
 import org.springframework.web.filter.CorsFilter;
 
 @Configuration
@@ -18,18 +18,23 @@ public class SecurityConfig {
 
     private final AuthenticationManager authenticationManager;
 
-    public SecurityConfig(CorsFilter corsFilter, AuthenticationManager authenticationManager) {
+    private final AccountRepository accountRepository;
+
+    public SecurityConfig(CorsFilter corsFilter,
+                          AuthenticationManager authenticationManager,
+                          AccountRepository accountRepository) {
         this.corsFilter = corsFilter;
         this.authenticationManager = authenticationManager;
+        this.accountRepository = accountRepository;
     }
-
-
 
     @Bean
     SecurityFilterChain config(HttpSecurity http) throws Exception {
-        http.addFilterBefore(new CustomFilter(), WebAsyncManagerIntegrationFilter.class);
+
+//        http.addFilterBefore(new CustomFilter(), WebAsyncManagerIntegrationFilter.class);
         http.addFilter(corsFilter);
         http.addFilter(new JwtAuthenticationFilter(authenticationManager));
+        http.addFilter(new JwtAuthorizationFilter(authenticationManager, accountRepository));
 
         /*
         * 서버에서 Csrf token 을 사용하지 않음을 설정
