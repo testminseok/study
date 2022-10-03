@@ -5,6 +5,7 @@ import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 import java.util.function.Predicate;
+import java.util.stream.Collectors;
 
 public class FilteringApple {
 
@@ -33,6 +34,19 @@ public class FilteringApple {
         // [Apple{color='green', weight=80}, Apple{color='green', weight=155}]
         List<Apple> greenApplesByMethodReference = filteringGreenApple(inventory, FilteringApple::isGreenApple);
         System.out.println(greenApplesByMethodReference);
+
+        // 자바 8 스트림을 이용 - 순차적인 처리 방식
+        List<Apple> greenApplesByStream =
+                inventory.stream()
+                        .filter(FilteringApple::isGreenApple)
+                        .collect(Collectors.toList());
+        System.out.println(greenApplesByStream);
+
+        // 자바 8 스트림을 이용 - 병렬 처리 방식
+        List<Apple> greenApplesByParallelStream = inventory.parallelStream()
+                .filter(FilteringApple::isGreenApple)
+                .collect(Collectors.toList());
+        System.out.println(greenApplesByParallelStream);
     }
 
     public static List<Apple> filteringGreenApple(List<Apple> inventory) {
