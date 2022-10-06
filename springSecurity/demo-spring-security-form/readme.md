@@ -6,7 +6,7 @@ Spring Security 에서 제공하는 Filter 는 다음과 같은 순서를 가진
 - ForceEagerSessionCreationFilter
 - ChannelProcessingFilter
 - WebAsyncManagerIntegrationFilter
-- SecurityContextPersistenceFilter
+- [SecurityContextPersistenceFilter](#securitycontextpersistencefilter)
 - HeaderWriterFilter
 - CorsFilter
 - CsrfFilter
@@ -18,10 +18,10 @@ Spring Security 에서 제공하는 Filter 는 다음과 같은 순서를 가진
 - CasAuthenticationFilter
 - OAuth2LoginAuthenticationFilter
 - Saml2WebSsoAuthenticationFilter
-- UsernamePasswordAuthenticationFilter
+- [UsernamePasswordAuthenticationFilter](#usernamepasswordauthenticationfilter)
 - OpenIDAuthenticationFilter
-- DefaultLoginPageGeneratingFilter
-- DefaultLogoutPageGeneratingFilter
+- [DefaultLoginPageGeneratingFilter](#defaultloginpagegeneratingfilter)
+- [DefaultLogoutPageGeneratingFilter](#defaultlogoutpagegeneratingfilter)
 - ConcurrentSessionFilter
 - DigestAuthenticationFilter
 - BearerTokenAuthenticationFilter
@@ -34,7 +34,8 @@ Spring Security 에서 제공하는 Filter 는 다음과 같은 순서를 가진
 - OAuth2AuthorizationCodeGrantFilter
 - SessionManagementFilter
 - ExceptionTranslationFilter
-- FilterSecurityInterceptor(5.7.x 부터 AuthorizationFilter 로 변경되었다.)
+- [FilterSecurityInterceptor](#filtersecurityinterceptor)
+- [AuthorizationFilter](#authorizationfilter) (FilterSecurityInterceptor 를 대체 한다.)
 - SwitchUserFilter
 
 ___
@@ -55,6 +56,14 @@ ProviderManager 는 등록된 providers 중에 해당 Authentication 객체 여�
 > 보통은 UserDetailsService 를 @Bean 으로 등록하여 DB 에서 사용자를 조회한다.
 > 여기서 조회된 UserDetails 가 Principal 객체이다. 
 
+## DefaultLoginPageGeneratingFilter
+DefaultLoginPageGeneratingFilter 는 Custom 로그인 페이지를 등록하지 않았을때 SpringSecurity 에서 기본으로 제공하는 로그인 
+페이지를 사용하기 위한 Filter 이다. Custom 한 로그인페이지를 등록하면 해당 필터는 SecurityFilterChain 에서 제외된다.
+
+## DefaultLogoutPageGeneratingFilter
+DefaultLogoutPageGeneratingFilter 는 Custom 로그아웃 페이지를 등록하지 않았을때 SpringSecurity 에서 기본으로 제공하는 로그아웃
+페이지를 사용하기 위한 Filter 이다. Custom 한 로그인 페이지를 등록해도 해당 필터는 SecurityFilterChain 에서 제외된다.
+
 ## ExceptionTranslationFilter
 AuthorizationFilter 또는 FilterSecurityInterceptor 에서 AuthenticationException 과 
 AccessDeniedException 가 발생했을때 처리를한다.
@@ -72,5 +81,5 @@ AccessDecisionVoter 가 하나라도 동의 한다면 해당 Resource 에 접근
 
 ## AuthorizationFilter
 FilterSecurityInterceptor 와 역활은 동일하지만 AccessDecisionManager 를 사용하지 않는다.
-Authentication 에 담겨있는 권한을 확인한다.
-때문에 현재 5.7.3버전 까지는 AccessDecisionManager 를 통한 권한 계층을 설정하는것이 불가능하다.
+Authentication 에 담겨있는 권한을 확인한다. 현재 5.7.3 버전 에서는 AuthorizationFilter 는 
+AccessDecisionManager 를 통한 권한 계층을 설정하는것이 불가능하다.
