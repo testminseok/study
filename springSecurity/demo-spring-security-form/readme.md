@@ -81,5 +81,8 @@ AccessDecisionVoter 가 하나라도 동의 한다면 해당 Resource 에 접근
 
 ## AuthorizationFilter
 FilterSecurityInterceptor 와 역활은 동일하지만 AccessDecisionManager 를 사용하지 않는다.
-Authentication 에 담겨있는 권한을 확인한다. 현재 5.7.3 버전 에서는 AuthorizationFilter 는 
-AccessDecisionManager 를 통한 권한 계층을 설정하는것이 불가능하다.
+인증이 되지 않았을땐 AuthenticationException 을
+권한이 없는 resource 에 접근하려 할땐 AccessDeniedException 을 발생시킨다. 
+> 5.7.3 버전 에서는 FilterSecurityInterceptor 대신 AuthorizationFilter 를 사용하는것으로 변경 되었으며,
+> AccessDecisionManager 를 통한 권한 계층을 설정하는것이 불가능하다. 향후 FilterSecurityInterceptor 를 AuthorizationFilter 로
+> 완전히 대체 하게 변경 되고 있다.
