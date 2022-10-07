@@ -24,8 +24,8 @@ Spring Security 에서 제공하는 Filter 는 다음과 같은 순서를 가진
 - [DefaultLogoutPageGeneratingFilter](#defaultlogoutpagegeneratingfilter)
 - ConcurrentSessionFilter
 - DigestAuthenticationFilter
-- BearerTokenAuthenticationFilter
-- BasicAuthenticationFilter
+- [BearerTokenAuthenticationFilter](#bearertokenauthenticationfilter)
+- [BasicAuthenticationFilter](#basicauthenticationfilter)
 - RequestCacheAwareFilter
 - SecurityContextHolderAwareRequestFilter
 - JaasApiIntegrationFilter
@@ -63,6 +63,21 @@ DefaultLoginPageGeneratingFilter 는 Custom 로그인 페이지를 등록하지 
 ## DefaultLogoutPageGeneratingFilter
 DefaultLogoutPageGeneratingFilter 는 Custom 로그아웃 페이지를 등록하지 않았을때 SpringSecurity 에서 기본으로 제공하는 로그아웃
 페이지를 사용하기 위한 Filter 이다. Custom 한 로그인 페이지를 등록해도 해당 필터는 SecurityFilterChain 에서 제외된다.
+
+## BearerTokenAuthenticationFilter
+BearerTokenAuthenticationFilter 는 HttpHeader 에 Authorization Type 이 Bearer 인것에 대한 인증을 담당한다.
+인증서버에서 인증 수단을 Token(JWT or OpaqueToken) 을 사용할 경우 이 Token 을 HttpHeader 에 Authorization : Bearer "myToken" 과 같이 요청하고, 
+해당 토큰을 인증서버에서 검증한 뒤 Authentication 객체를 SecurityContext 에 등록한다.
+해당 필터는 spring-boot-starter-oauth2-resource-server 를 dependency 하면 사용할 수 있다. 
+또한, JWT 의 경우 사용자 정보가 세션에 있지 않고 Token 자체에 있기 때문에 서버의 Session 을 StateLess 하게 유지 할 수 있다.
+때문에 서버에 대한 부하가 줄어들고 다른 웹서비스에 전달이 가능하므로 확장성이 높아진다.
+> JWT 를 사용할 경우 http.oauth2ResourceServer(OAuth2ResourceServerConfigurer::jwt); 으로 SecurityFilterChain 에 등록할 수 있다.
+
+## BasicAuthenticationFilter
+BasicAuthenticationFilter 또한 인증을 진행할 수 있는 방법 중 하나인데, HttpHeader 에 Authorization Type 이 Basic 인것에 대한 인증을 담당한다.
+HttpHeader 에 Authorization : Basic Base64.encode("{myId:myPassword}") 와 같이 아이디와 비밀번호를 형식({id:password})에 맞춰 
+Base64 로 인코딩 한 후 인증서버에 인증을 요청하면 해당 서버는 고객정보를 확인하여 접근을 허가한다.
+> Basic 방식의 인증은 고객의 아이디 와 비밀번호가 포함되어 있으므로, 탈취 될경우 보안상 큰 이슈가 발생하기 떄문에, HTTPS 를 사용하는것은 필연적이다.
 
 ## ExceptionTranslationFilter
 AuthorizationFilter 또는 FilterSecurityInterceptor 에서 AuthenticationException 과 
