@@ -8,8 +8,8 @@ Spring Security 에서 제공하는 Filter 는 다음과 같은 순서를 가진
 - WebAsyncManagerIntegrationFilter
 - [SecurityContextPersistenceFilter](#securitycontextpersistencefilter)
 - HeaderWriterFilter
-- CorsFilter
-- CsrfFilter
+- [CorsFilter](#corsfilter)
+- [CsrfFilter](#csrffilter)
 - LogoutFilter
 - OAuth2AuthorizationRequestRedirectFilter
 - Saml2WebSsoAuthenticationRequestFilter
@@ -33,7 +33,7 @@ Spring Security 에서 제공하는 Filter 는 다음과 같은 순서를 가진
 - AnonymousAuthenticationFilter
 - OAuth2AuthorizationCodeGrantFilter
 - SessionManagementFilter
-- ExceptionTranslationFilter
+- [ExceptionTranslationFilter](#exceptiontranslationfilter)
 - [FilterSecurityInterceptor](#filtersecurityinterceptor)
 - [AuthorizationFilter](#authorizationfilter) (FilterSecurityInterceptor 를 대체 한다.)
 - SwitchUserFilter
@@ -45,6 +45,30 @@ SecurityContextHolder 에 저장한다. 이때, SecurityContext 에는 사용자
 또한, 요청이 완료되어 쓰레드가 종료될때 SecurityContext 를 SecurityContextHolder 에서 삭제한다.
 그 이유는 SecurityContext 는 ThreadLocal 을 사용하여 객체를 저장하는데, 
 TheadPool 을 사용하여 Thread 를 재사용할때 dummy 데이터가 들어 있을 수 있기 때문이다.
+
+## CorsFilter
+CorsFilter 는 Cross-Origin Resource Sharing (CORS) 를 지원하기 위한 필터이다.
+CORS 는 웹 애플리케이션에서 다른 도메인의 리소스에 접근할 수 있도록 하는 규약이며, 
+CORS 를 지원하기 위해서는 서버에서 Access-Control-Allow-Origin 헤더를 응답에 포함시켜야 한다.
+이때, CorsFilter 는 Access-Control-Allow-Origin 헤더를 응답에 포함시키는 역할을 한다.
+
+브라우저에서는 다른 도메인의 리소스에 접근을 시도할 경우 preflight request 를 OPTIONS 메서드로 요청한다.
+서버에서 Access-Control-Allow-Origin 헤더를 포함한 응답을 받으면 응답 헤더를 확인하여 실제 요청 또는 CORS 에러를 반환한다.
+이때 실제 요청은 GET, POST, PUT, DELETE 등의 메서드로 요청을 보낸다.
+> CORS 는 브라우저에서 동작하는 보안 규약이므로 서버에서는 CORS 를 지원하기 위한 설정만 하면 된다.
+
+## CsrfFilter
+CsrfFilter 는 Cross-Site Request Forgery (CSRF) 공격을 방어하기 위한 필터이다.
+CSRF 공격은 사용자가 자신의 의지와는 무관하게 공격자가 의도한 행위를 하도록 만드는 공격이다.
+CSRF 공격을 방어하기 위해서는 서버에서는 CSRF 토큰을 생성하여 응답에 포함시켜야 한다.
+이때, CSRF 토큰은 쿠키에 저장되어야 한다.
+클라이언트에서는 CSRF 토큰을 쿠키에서 읽어서 요청에 포함시켜야 한다.
+그리고, 서버에서는 요청에 포함된 CSRF 토큰과 쿠키에 저장된 CSRF 토큰이 일치하는지 확인해야 한다.
+
+> SpringSecurity 에서는 CSRF 토큰 생성을 위해 CsrfTokenRepository 를 사용한다. 
+> CsrfTokenRepository 는 CsrfToken 을 생성하고 저장하는 역활을 하며 HttpSessionCsrfTokenRepository 를 기본 구현체로 사용한다.
+> HttpSessionCsrfTokenRepository 는 HttpSession 을 사용하여 CsrfToken 을 저장하며 요청 헤더에 CsrfToken 과 HttpSession 에 
+> 저장된 CsrfToken 을 비교하여 CSRF 공격을 방어한다.
 
 ## UsernamePasswordAuthenticationFilter
 UsernamePasswordAuthenticationFilter 는 form 을 통한 인증을 진행할때 인증을 담당하는 Filter 이다.
