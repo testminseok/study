@@ -4,6 +4,7 @@ import java.util.Arrays;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
+import java.util.function.Predicate;
 
 public class AppleSorting {
     public static void main(String[] args) {
@@ -43,6 +44,18 @@ public class AppleSorting {
                         .reversed() // 무게를 역순으로 정렬
                         .thenComparing(Apple::getCountry) // 무게가 같을 경우 국가를 기준으로 정렬
         );
+
+        // 빨관 사과를 선택
+        Predicate<Apple> redApple = (Apple a) -> a.getColor() == Color.RED;
+        // 빨간 사과가 아닌 사과를 선택
+        Predicate<Apple> notRedApple = redApple.negate();
+        // 빨간 사과이면서 무게가 150 이상인 사과를 선택
+        Predicate<Apple> redAndHeavyApple =
+                redApple.and(a -> a.getWeight() > 150);
+        // 빨간 사과이면서 무게가 150 이상이거나 녹색 사과를 선택
+        Predicate<Apple> redAndHeavyAppleOrGreen =
+                redApple.and(a -> a.getWeight() > 150).or(a -> a.getColor() == Color.GREEN);
+
     }
 }
 
