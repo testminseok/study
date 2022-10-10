@@ -2,6 +2,7 @@ package examples.chap03;
 
 public class Apple {
 
+  private String country;
   private int weight = 0;
   private Color color;
 
@@ -26,10 +27,20 @@ public class Apple {
     this.color = color;
   }
 
-  @SuppressWarnings("boxing")
-  @Override
-  public String toString() {
-    return String.format("Apple{color=%s, weight=%d}", color, weight);
+  public String getCountry() {
+    return country;
   }
 
+  public void setCountry(String country) {
+    this.country = country;
+  }
+
+  @Override
+  public String toString() {
+    return "Apple{" +
+            "country='" + country + '\'' +
+            ", weight=" + weight +
+            ", color=" + color +
+            '}';
+  }
 }

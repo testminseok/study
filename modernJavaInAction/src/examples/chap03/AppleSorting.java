@@ -38,7 +38,11 @@ public class AppleSorting {
         System.out.println(inventory);
 
         // 메소드 참조를 이용해 더욱 간결하게 표현할 수 있다.
-        inventory.sort(Comparator.comparingInt(Apple::getWeight));
+        inventory.sort(
+                Comparator.comparingInt(Apple::getWeight) // 메소드 참조를 사용하여 무게를 기준으로 정력
+                        .reversed() // 무게를 역순으로 정렬
+                        .thenComparing(Apple::getCountry) // 무게가 같을 경우 국가를 기준으로 정렬
+        );
     }
 }
 
