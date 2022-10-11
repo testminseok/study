@@ -4,6 +4,7 @@ import java.util.Arrays;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
+import java.util.function.Function;
 import java.util.function.Predicate;
 
 public class AppleSorting {
@@ -56,6 +57,36 @@ public class AppleSorting {
         Predicate<Apple> redAndHeavyAppleOrGreen =
                 redApple.and(a -> a.getWeight() > 150).or(a -> a.getColor() == Color.GREEN);
 
+        Function<Integer, Integer> f = x -> x + 1;
+        Function<Integer, Integer> g = x -> x * 2;
+        Function<Integer, Integer> h = f.andThen(g); // f(x) -> g(f(x)) 입력값에 1을 더한 뒤 2를 곱한다.
+        int result = h.apply(1); // 4
+        System.out.println(result);
+
+        Function<Integer, Integer> k = f.compose(g); // f(x) -> f(g(x)) 입력값에 2를 곱한 뒤 1을 더한다.
+        result = k.apply(1); // 3
+        System.out.println(result);
+
+        Function<String, String> addHeader = Letter::addHeader;
+        Function<String, String> transformationPipeline =
+                addHeader.andThen(Letter::checkSpelling) // 헤더를 추가한 뒤 철자를 확인한다.
+                        .andThen(Letter::addFooter); // 푸터를 추가한다.
+
+        System.out.println(transformationPipeline.apply("hello labda"));
+    }
+
+    class Letter {
+        public static String addHeader(String text) {
+            return "From Raoul, Mario and Alan: " + text;
+        }
+
+        public static String addFooter(String text) {
+            return text + " Kind regards";
+        }
+
+        public static String checkSpelling(String text) {
+            return text.replaceAll("labda", "lambda");
+        }
     }
 }
 
