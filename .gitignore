@@ -39,7 +39,7 @@
 # .idea/compiler.xml
 # .idea/jarRepositories.xml
 # .idea/modules.xml
-# .idea/*.iml
+.idea/*.iml
 # .idea/modules
 # *.iml
 # *.ipr
@@ -163,5 +163,7 @@ $RECYCLE.BIN/
 # custom
 /**/.idea/*
 /**/**/.idea/*
+
+
 
 # End of https://www.toptal.com/developers/gitignore/api/windows,java,intellij+all,maven
