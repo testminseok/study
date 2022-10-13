@@ -49,5 +49,30 @@ public class CaloricDishes {
                         .limit(3)
                         .collect(Collectors.toList());
         System.out.println(threeHighCaloricDishNames);
+
+        /*
+        * filter, map, limit, sorted, distinct 등은 중간연산에 해당된다.
+        * forEach(void), count(long), collect 는 최종연산에 해당된다.
+        * */
+        List<String> names =
+                menu.stream()
+                        /*
+                        * filter 와 map 은 서로 다른 연산이지만 한 과정으로 병합되었는데 이 기법을 루프 퓨전이라고 한다.
+                        * */
+                        .filter(dish -> {
+                            System.out.println("filtering : " + dish.getName());
+                            return dish.getCalories() > 300;
+                        })
+                        .map(dish -> {
+                            System.out.println("mapping : " + dish.getName());
+                            return dish.getName();
+                        })
+                        /*
+                        * 300 칼로리가 넘는 요리는 여러 개지만 오직 처음 3개만 선택되었는데,
+                        * 이는 limit 연산과 쇼트서킷이라 불리는 기법덕분이다.
+                        * */
+                        .limit(3)
+                        .collect(Collectors.toList());
+        System.out.println(names);
     }
 }
