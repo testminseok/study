@@ -53,6 +53,7 @@ public class CaloricDishes {
         /*
         * filter, map, limit, sorted, distinct 등은 중간연산에 해당된다.
         * forEach(void), count(long), collect 는 최종연산에 해당된다.
+        * 중간연산으로 파이프라인을 구성할 수 있지만, 중간 연산만으로는 어떤 결과도 도출 할 수 없다. (최종연산이 없으면 아무연산하지 않음)
         * */
         List<String> names =
                 menu.stream()
