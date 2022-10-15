@@ -47,6 +47,13 @@ public class Filtering {
                 .dropWhile(d -> d.getCalories() < 320)
                 .collect(Collectors.toList());
 
+        // 스트림 축소
+        // 정렬되지 않은 스트림에도 limit 메서드를 사용할 수 있다.
+        // 소스가 정렬되어 있지 않았다면 limit 의 결과도 정렬되지 않은 상태로 반환된다.
+        specialMenu.stream()
+                .filter(dish -> dish.getCalories() > 300)
+                .limit(3)
+                .collect(Collectors.toList());
 
     }
 }
