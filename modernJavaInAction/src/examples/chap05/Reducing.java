@@ -4,6 +4,8 @@ import examples.chap04.Dish;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.OptionalInt;
+import java.util.stream.IntStream;
 
 public class Reducing {
     public static void main(String[] args) {
@@ -60,6 +62,23 @@ public class Reducing {
                 .map(Dish::getCalories)
                 .reduce(0, Integer::sum);
         System.out.println(totalCalories);
+
+        // 기본형 특화 스트림
+        // ex) Integer, Long 등등 기본자료형의 경우 기본형(int, long)으로 언박싱하는 비용이 있다.
+        int totalCalories2 = Dish.menu.stream()
+                .mapToInt(Dish::getCalories)
+                .sum();
+        System.out.println(totalCalories2);
+
+        // IntStream 을 반환하는게 아닌 Stream<Integer> 를 반환한다.
+        Dish.menu.stream()
+                .mapToInt(Dish::getCalories)
+                .boxed();
+
+        // 값이 없었을 때 기본 최대값을 몇시적으로 설정할 수 있다.
+        OptionalInt maxCalories = Dish.menu.stream()
+                .mapToInt(Dish::getCalories)
+                .max();
 
     }
 }
