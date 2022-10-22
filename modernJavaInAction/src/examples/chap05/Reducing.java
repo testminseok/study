@@ -57,28 +57,5 @@ public class Reducing {
         System.out.println(reduce);
         System.out.println(Dish.menu.size());
 
-        // 총 칼로리
-        int totalCalories = Dish.menu.stream()
-                .map(Dish::getCalories)
-                .reduce(0, Integer::sum);
-        System.out.println(totalCalories);
-
-        // 기본형 특화 스트림
-        // ex) Integer, Long 등등 기본자료형의 경우 기본형(int, long)으로 언박싱하는 비용이 있다.
-        int totalCalories2 = Dish.menu.stream()
-                .mapToInt(Dish::getCalories)
-                .sum();
-        System.out.println(totalCalories2);
-
-        // IntStream 을 반환하는게 아닌 Stream<Integer> 를 반환한다.
-        Dish.menu.stream()
-                .mapToInt(Dish::getCalories)
-                .boxed();
-
-        // 값이 없었을 때 기본 최대값을 몇시적으로 설정할 수 있다.
-        OptionalInt maxCalories = Dish.menu.stream()
-                .mapToInt(Dish::getCalories)
-                .max();
-
     }
 }
