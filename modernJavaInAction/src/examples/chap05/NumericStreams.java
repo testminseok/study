@@ -52,6 +52,9 @@ public class NumericStreams {
                                 .filter(b -> Math.sqrt(a * a + b * b) % 1 == 0)
                                 .mapToObj(b -> new int[]{a, b, (int) Math.sqrt(a * a + b * b)})
                 );
+
+
+
         pythagoreanTriples.limit(5)
                 .forEach(t -> System.out.printf("%d, %d, %d \n", t[0], t[1], t[2]));
 
