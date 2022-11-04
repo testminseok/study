@@ -1,5 +1,6 @@
 package examples.chap07;
 
+import java.util.stream.LongStream;
 import java.util.stream.Stream;
 
 public class ParallelStreams {
@@ -34,5 +35,24 @@ public class ParallelStreams {
                 .limit(n)
                 .parallel() // 스트림을 병렬 스트림으로 변환 (스트림이 여러 청크로 분할되어 있다.)
                 .reduce(0L, Long::sum);
+    }
+
+    /*
+    * 병렬 스트림에서 발생하는 많은 문제는 아래의 메소드 처럼
+    * 공유된 상태를 변경하는 알고리즘을 사용하기 때문이다.
+    * */
+    public static long sideEffectSum(long n) {
+        Accumulator accumulator = new Accumulator();
+        LongStream.rangeClosed(1, n)
+                .forEach(accumulator::add);
+        return accumulator.total;
+    }
+
+    public static long sideEffectParallelSum(long n) {
+        Accumulator accumulator = new Accumulator();
+        LongStream.rangeClosed(1, n)
+                .parallel()
+                .forEach(accumulator::add);
+        return accumulator.total;
     }
 }
