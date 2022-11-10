@@ -17,6 +17,8 @@ public class ExecutionAround {
     public static void main(String[] args) {
         String oneLine =
                 processFile((BufferedReader b) -> b.readLine());
+        String towLies =
+                processFile((BufferedReader b) -> b.readLine() + b.readLine());
     }
 
     private static String processFile(BufferedReaderProcessor p) {
