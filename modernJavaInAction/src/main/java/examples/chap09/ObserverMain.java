@@ -3,6 +3,9 @@ package examples.chap09;
 import java.util.ArrayList;
 import java.util.List;
 
+/*
+* 옵저버 패턴에서 람다 사용하기
+* */
 public class ObserverMain {
     public static void main(String[] args) {
         Feed feed = new Feed();
@@ -11,7 +14,7 @@ public class ObserverMain {
         feed.registerObserver(new LeMonde());
         feed.notifyObservers("The queen said her favourite book is Modern Java in Action!");
 
-        // about Lambda
+        // from lambda
         Feed feedByLambda = new Feed();
         feedByLambda.registerObserver(tweet -> {
             if (tweet != null && tweet.contains("money")) {
