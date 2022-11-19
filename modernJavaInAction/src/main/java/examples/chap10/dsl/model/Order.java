@@ -3,10 +3,19 @@ package examples.chap10.dsl.model;
 import java.util.ArrayList;
 import java.util.List;
 
-public record Order(String customer, List<Trade> trades) {
+public class Order {
+
+    private String customer;
+
+    private List<Trade> trades;
 
     public Order(String customer) {
         this(customer, new ArrayList<>());
+    }
+
+    public Order(String customer, List<Trade> trades) {
+        this.customer = customer;
+        this.trades = trades;
     }
 
     public void addTrade(Trade trade) {
