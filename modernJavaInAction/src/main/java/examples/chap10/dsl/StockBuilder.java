@@ -8,7 +8,7 @@ public class StockBuilder {
     private final MethodChainingOrderBuilder builder;
     private final Trade trade;
 
-    private final Stock stock;
+    public final Stock stock;
 
     public StockBuilder(MethodChainingOrderBuilder builder, Trade trade, String symbol) {
         this.builder = builder;

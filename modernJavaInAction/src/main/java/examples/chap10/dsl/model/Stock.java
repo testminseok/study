@@ -4,6 +4,10 @@ public class Stock {
     private String symbol;
     private String market;
 
+    public Stock() {
+
+    }
+
     public Stock(String symbol) {
         this(symbol, "");
     }
