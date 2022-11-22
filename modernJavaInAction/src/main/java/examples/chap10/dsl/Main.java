@@ -32,6 +32,8 @@ public class Main {
                 .build();
 
         // from functional sequence
+        // 이 패턴은 위의 두가지 DSL 형식의 장점을 더한다.
+        // 하지만 많은 설정 코드가 필요하며 DSL 자체가 자바 8의 람다 표현식 문법에 의한 잡음의 영향을 많이 받는다는것이 단점이다.
         Order order3 = order(o -> {
             o.forCustomer("BigBank");
             o.buy(t -> {
