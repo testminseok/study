@@ -53,5 +53,19 @@ public class Main {
                 });
             });
         });
+
+        Order order4 = MixedBuilder.forCustomer(
+                "BigBank", // 최상위 수준 주문의 속성을 지정하는 중첩 함수
+                MixedBuilder.buy(
+                        t -> t.quantity(80) // 한개의 주문을 만드는 람다 표현식
+                                .stock("IBM") // 거래 객체를 만드는 람다 표현식의 바디의 메소드 체인
+                                .on("NYSE")
+                                .at(125.00)),
+                MixedBuilder.sell(
+                        t -> t.quantity(50)
+                                .stock("GOOGLE")
+                                .on("NASDAQ")
+                                .at(125.00))
+        );
     }
 }
