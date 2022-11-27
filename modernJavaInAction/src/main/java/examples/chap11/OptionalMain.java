@@ -1,6 +1,9 @@
 package examples.chap11;
 
+import java.util.List;
 import java.util.Optional;
+import java.util.Set;
+import java.util.stream.Collectors;
 
 public class OptionalMain {
     public static void main(String[] args) {
@@ -60,5 +63,19 @@ public class OptionalMain {
                 .flatMap(CarV2::getInsurance)
                 .map(Insurance::getName)
                 .orElse("Unknown");
+    }
+
+    /*
+    * 사람 목록을 이용해 가입한 보험 회사 이름 찾기
+    * */
+    public Set<String> getCarInsuranceNames(List<PersonV2> people) {
+        return people.stream()
+                .map(PersonV2::getCar)
+                .map(optionalCar -> optionalCar.flatMap(CarV2::getInsurance))
+                .map(optionalInsurance -> optionalInsurance.map(Insurance::getName))
+//                .filter(Optional::isPresent)
+//                .map(Optional::get)
+                .flatMap(Optional::stream) // (isPresent -> map) 의 과정을 거친것과 동일한 결과를 반환한다.
+                .collect(Collectors.toSet());
     }
 }
