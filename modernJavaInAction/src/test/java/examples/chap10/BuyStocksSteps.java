@@ -12,6 +12,7 @@ import java.util.Map;
 
 import static org.junit.jupiter.api.Assertions.*;
 
+
 public class BuyStocksSteps {
 
     private Map<String, Integer> stockUnitPrices = new HashMap<>();

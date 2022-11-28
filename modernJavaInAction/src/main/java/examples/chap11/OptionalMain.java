@@ -1,5 +1,6 @@
 package examples.chap11;
 
+import javax.swing.text.html.Option;
 import java.util.List;
 import java.util.Optional;
 import java.util.Set;
@@ -102,5 +103,29 @@ public class OptionalMain {
      * */
     public Optional<Insurance> quiz(Optional<PersonV2> person, Optional<CarV2> car) {
         return person.flatMap(p -> car.map(c -> findCheapestInsurance(p, c)));
+    }
+
+    public boolean isCambridgeInsurance(Insurance insurance) {
+        if (insurance != null && "CambridgeInsurance".equals(insurance.getName())) {
+            return true;
+        }
+
+        return false;
+    }
+
+    public boolean isCambridgeInsuranceByOptional(Insurance insurance) {
+        Optional<Insurance> optionalInsurance = Optional.ofNullable(insurance);
+        return optionalInsurance.filter(item -> "CambridgeInsurance".equals(item.getName()))
+                .isPresent();
+
+    }
+
+    // quiz2
+    public String getCarInsuranceName(Optional<PersonV2> person, int minAge) {
+        return person.filter(p -> p.getAge() >= minAge)
+                .flatMap(PersonV2::getCar)
+                .flatMap(CarV2::getInsurance)
+                .map(Insurance::getName)
+                .orElse("Unknown");
     }
 }
