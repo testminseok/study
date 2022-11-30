@@ -2,12 +2,30 @@ package examples.chap12;
 
 import java.time.DayOfWeek;
 import java.time.LocalDate;
+import java.time.LocalTime;
 import java.time.Month;
 import java.time.temporal.ChronoField;
 
 public class DateTimeExamples {
     public static void main(String[] args) {
+        localDateInJDK8();
+        localTimeInJDK();
+    }
 
+    private static void localTimeInJDK() {
+        LocalTime time = LocalTime.of(13, 45, 20); // 13:45:20
+        LocalTime timeInText = LocalTime.parse("13:45:20");
+        int hour = time.getHour();
+        int minute = time.getMinute();
+        int second = time.getSecond();
+
+        System.out.println(hour); // 13
+        System.out.println(minute); // 45
+        System.out.println(second); //20
+
+    }
+
+    private static void localDateInJDK8() {
         // 자바 8
         LocalDate date = LocalDate.of(2022, 11, 30);
         int year = date.getYear();
