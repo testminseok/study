@@ -1,18 +1,38 @@
 package examples.chap12;
 
-import java.time.DayOfWeek;
-import java.time.LocalDate;
-import java.time.LocalTime;
-import java.time.Month;
+import java.time.*;
 import java.time.temporal.ChronoField;
 
 public class DateTimeExamples {
     public static void main(String[] args) {
         localDateInJDK8();
-        localTimeInJDK();
+        localTimeInJDK8();
+        localDateTimeInJDK8();
     }
 
-    private static void localTimeInJDK() {
+    private static void localDateTimeInJDK8() {
+        LocalDate date = LocalDate.of(2022, 12, 01);
+        LocalTime time = LocalTime.of(17, 40, 00); // 13:45:20
+
+        LocalDateTime dateTime1 = LocalDateTime.of(2022, Month.DECEMBER, 01, 17, 40, 00);
+        LocalDateTime dateTime2 = LocalDateTime.of(date, time);
+        LocalDateTime dateTime3 = date.atTime(17, 40, 00);
+        LocalDateTime dateTime4 = date.atTime(time);
+        LocalDateTime dateTime5 = time.atDate(date);
+
+        LocalDate date1 = dateTime1.toLocalDate();
+        LocalTime time1 = dateTime1.toLocalTime();
+
+        System.out.println(date1); // 2022-12-01
+        System.out.println(time1); // 17:40
+        System.out.println(dateTime1); // 2022-12-01T17:40
+        System.out.println(dateTime2); // 2022-12-01T17:40
+        System.out.println(dateTime3); // 2022-12-01T17:40
+        System.out.println(dateTime4); // 2022-12-01T17:40
+        System.out.println(dateTime5); // 2022-12-01T17:40
+    }
+
+    private static void localTimeInJDK8() {
         LocalTime time = LocalTime.of(13, 45, 20); // 13:45:20
         LocalTime timeInText = LocalTime.parse("13:45:20");
         int hour = time.getHour();
