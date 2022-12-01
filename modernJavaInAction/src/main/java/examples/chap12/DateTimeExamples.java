@@ -8,6 +8,20 @@ public class DateTimeExamples {
         localDateInJDK8();
         localTimeInJDK8();
         localDateTimeInJDK8();
+        instantInJDK8();
+    }
+
+    private static void instantInJDK8() {
+        // 기계 전용의 유틸리티 - 초와 나노초 정보를 포함한다.
+        Instant instant = Instant.ofEpochSecond(3);
+        Instant instant1 = Instant.ofEpochSecond(3, 0);
+        Instant instant2 = Instant.ofEpochSecond(2, 1_000_000_000);// 2초 이후의 1억 나노초
+        Instant instant3 = Instant.ofEpochSecond(4, -1_000_000_000);// 4초 이전의 1억 나노초
+
+        System.out.println(instant);
+        System.out.println(instant1);
+        System.out.println(instant2);
+        System.out.println(instant3);
     }
 
     private static void localDateTimeInJDK8() {
