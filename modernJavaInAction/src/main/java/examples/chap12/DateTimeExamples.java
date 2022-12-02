@@ -16,6 +16,25 @@ public class DateTimeExamples {
         localDateTime();
         instant();
         duration();
+        period();
+    }
+
+    private static void period() {
+        Period between = Period.between(
+                LocalDate.of(2022, 12, 02),
+                LocalDate.of(2022, 12, 12));
+
+        Period tenDays = Period.ofDays(10);
+        Period threeWeeks = Period.ofWeeks(3);
+        Period twoYearsSixMonthsOneDay = Period.of(2, 6, 1);
+
+        System.out.println(between.getYears());
+        System.out.println(between.getMonths());
+        System.out.println(between.getDays());
+
+        System.out.println(tenDays);
+        System.out.println(threeWeeks);
+        System.out.println(twoYearsSixMonthsOneDay);
     }
 
     private static void duration() {
