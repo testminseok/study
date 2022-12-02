@@ -11,10 +11,19 @@ public class DateTimeExamples {
     private static final LocalTime TIME = LocalTime.of(17, 40, 00); // 13:45:20
 
     public static void main(String[] args) {
+        /*
+        * LocalDate, LocalTime, LocalDateTime, Instant 는 모두 Temporal interface 를 구현한다.
+        * Temporal interface 는 특정 시간을 모델링하는 객체의 값을 어떻게 읽고 조작할지 정의한다.
+        * */
         localDate();
         localTime();
         localDateTime();
         instant();
+
+        /*
+        * 두 시간 객체 사이의 지속시간 Duration 은 초와 나노초로 시간단위를 표현하므로 between 에 LocalDate 를 사용할 수 없다
+        * Period 의 between 으로 LocalDate 의 차이를 확인할 수 있다.
+        * */
         duration();
         period();
     }
@@ -28,13 +37,13 @@ public class DateTimeExamples {
         Period threeWeeks = Period.ofWeeks(3);
         Period twoYearsSixMonthsOneDay = Period.of(2, 6, 1);
 
-        System.out.println(between.getYears());
-        System.out.println(between.getMonths());
-        System.out.println(between.getDays());
+        System.out.println(between.getYears()); // 0
+        System.out.println(between.getMonths()); // 0
+        System.out.println(between.getDays()); // 10
 
-        System.out.println(tenDays);
-        System.out.println(threeWeeks);
-        System.out.println(twoYearsSixMonthsOneDay);
+        System.out.println(tenDays); // P10D
+        System.out.println(threeWeeks); // P21D
+        System.out.println(twoYearsSixMonthsOneDay); // P2Y6M1D
     }
 
     private static void duration() {
@@ -50,10 +59,10 @@ public class DateTimeExamples {
         Duration threeMinutes = Duration.ofMinutes(3);
         Duration threeMinutes2 = Duration.of(3, ChronoUnit.MINUTES);
 
-        System.out.println(threeMinutes);
-        System.out.println(threeMinutes2);
-        System.out.println(duration.getSeconds());
-        System.out.println(duration2.getSeconds());
+        System.out.println(threeMinutes); // PT3M
+        System.out.println(threeMinutes2); // PT3M
+        System.out.println(duration.getSeconds()); // -10
+        System.out.println(duration2.getSeconds()); // 282376726
     }
 
     private static void instant() {
