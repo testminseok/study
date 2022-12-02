@@ -2,16 +2,42 @@ package examples.chap12;
 
 import java.time.*;
 import java.time.temporal.ChronoField;
+import java.time.temporal.ChronoUnit;
 
 public class DateTimeExamples {
+
+    private static final LocalDate DATE = LocalDate.of(2022, 12, 01);
+
+    private static final LocalTime TIME = LocalTime.of(17, 40, 00); // 13:45:20
+
     public static void main(String[] args) {
-        localDateInJDK8();
-        localTimeInJDK8();
-        localDateTimeInJDK8();
-        instantInJDK8();
+        localDate();
+        localTime();
+        localDateTime();
+        instant();
+        duration();
     }
 
-    private static void instantInJDK8() {
+    private static void duration() {
+        Instant instant = Instant.ofEpochSecond(44 * 365 * 86400);
+        Instant now = Instant.now();
+
+        Duration duration = Duration.between(LocalTime.of(17, 40, 10), TIME);
+        Duration duration2 = Duration.between(instant, now);
+
+        /*
+        * 자신의 인스턴스를 만들 수 있도록 다양한 팩터리 메소드 제공
+        * */
+        Duration threeMinutes = Duration.ofMinutes(3);
+        Duration threeMinutes2 = Duration.of(3, ChronoUnit.MINUTES);
+
+        System.out.println(threeMinutes);
+        System.out.println(threeMinutes2);
+        System.out.println(duration.getSeconds());
+        System.out.println(duration2.getSeconds());
+    }
+
+    private static void instant() {
         // 기계 전용의 유틸리티 - 초와 나노초 정보를 포함한다.
         Instant instant = Instant.ofEpochSecond(3);
         Instant instant1 = Instant.ofEpochSecond(3, 0);
@@ -24,15 +50,12 @@ public class DateTimeExamples {
         System.out.println(instant3);
     }
 
-    private static void localDateTimeInJDK8() {
-        LocalDate date = LocalDate.of(2022, 12, 01);
-        LocalTime time = LocalTime.of(17, 40, 00); // 13:45:20
-
+    private static void localDateTime() {
         LocalDateTime dateTime1 = LocalDateTime.of(2022, Month.DECEMBER, 01, 17, 40, 00);
-        LocalDateTime dateTime2 = LocalDateTime.of(date, time);
-        LocalDateTime dateTime3 = date.atTime(17, 40, 00);
-        LocalDateTime dateTime4 = date.atTime(time);
-        LocalDateTime dateTime5 = time.atDate(date);
+        LocalDateTime dateTime2 = LocalDateTime.of(DATE, TIME);
+        LocalDateTime dateTime3 = DATE.atTime(17, 40, 00);
+        LocalDateTime dateTime4 = DATE.atTime(TIME);
+        LocalDateTime dateTime5 = TIME.atDate(DATE);
 
         LocalDate date1 = dateTime1.toLocalDate();
         LocalTime time1 = dateTime1.toLocalTime();
@@ -46,12 +69,11 @@ public class DateTimeExamples {
         System.out.println(dateTime5); // 2022-12-01T17:40
     }
 
-    private static void localTimeInJDK8() {
-        LocalTime time = LocalTime.of(13, 45, 20); // 13:45:20
+    private static void localTime() {
         LocalTime timeInText = LocalTime.parse("13:45:20");
-        int hour = time.getHour();
-        int minute = time.getMinute();
-        int second = time.getSecond();
+        int hour = TIME.getHour();
+        int minute = TIME.getMinute();
+        int second = TIME.getSecond();
 
         System.out.println(hour); // 13
         System.out.println(minute); // 45
@@ -59,18 +81,17 @@ public class DateTimeExamples {
 
     }
 
-    private static void localDateInJDK8() {
+    private static void localDate() {
         // 자바 8
-        LocalDate date = LocalDate.of(2022, 11, 30);
-        int year = date.getYear();
-        int yearByTemporalField = date.get(ChronoField.YEAR);
-        Month month = date.getMonth();
-        int monthByTemporalField = date.get(ChronoField.MONTH_OF_YEAR);
-        int day = date.getDayOfMonth();
-        int dayByTemporalField = date.get(ChronoField.DAY_OF_MONTH);
-        DayOfWeek dow = date.getDayOfWeek();
-        int len = date.lengthOfMonth();
-        boolean leap = date.isLeapYear();
+        int year = DATE.getYear();
+        int yearByTemporalField = DATE.get(ChronoField.YEAR);
+        Month month = DATE.getMonth();
+        int monthByTemporalField = DATE.get(ChronoField.MONTH_OF_YEAR);
+        int day = DATE.getDayOfMonth();
+        int dayByTemporalField = DATE.get(ChronoField.DAY_OF_MONTH);
+        DayOfWeek dow = DATE.getDayOfWeek();
+        int len = DATE.lengthOfMonth();
+        boolean leap = DATE.isLeapYear();
 
         System.out.println(year); // 2022
         System.out.println(yearByTemporalField); // 2022
