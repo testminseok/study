@@ -1,8 +1,7 @@
 package examples.chap12;
 
 import java.time.*;
-import java.time.temporal.ChronoField;
-import java.time.temporal.ChronoUnit;
+import java.time.temporal.*;
 
 import static java.time.temporal.TemporalAdjusters.lastDayOfMonth;
 import static java.time.temporal.TemporalAdjusters.nextOrSame;
@@ -41,9 +40,54 @@ public class DateTimeExamples {
         System.out.println("----------------------------");
         temporalAdjusters();
         System.out.println("----------------------------");
+        implementsTemporalAdjuster();
+        System.out.println("----------------------------");
+    }
+
+    private static void implementsTemporalAdjuster() {
+        LocalDate today = LocalDate.of(2022, 12, 03); // 2022-12-03
+        LocalDate nextWorkingDay = today.with(new NextWorkingDay()); // 2022-12-05
+
+        // TemporalAdjuster 는 functional interface 이므로 람다표현식을 사용할 수 있다.
+        LocalDate nextWorkingDay2 = today.with(temporal -> {
+            DayOfWeek dow = DayOfWeek.of(temporal.get(ChronoField.DAY_OF_WEEK)); // 현재 요일 읽기
+
+            int dayToAdd = 1; // 일,월,화,수,목 은 1일 추가 (바로 다음날 일해야 하기 때문에)
+            if (dow == DayOfWeek.FRIDAY) {  // 그러나 금요일이면 3일 추가
+                dayToAdd = 3;
+            } else if (dow == DayOfWeek.SATURDAY) { // 토요일이면 2일 추가
+                dayToAdd = 2;
+            }
+
+            return temporal.plus(dayToAdd, ChronoUnit.DAYS); // 적정한 날 수 만큼 추가된 날짜를 반환
+        });
+
+        /*
+        * TemporalAdjuster 를 람다 표현식으로 정의하고 싶다면 UnaryOperator<LocalDate> 를 인수로 받는 TemporalAdjusters 클래스의
+        * 정적 팩토리 메소드 ofDateAdjuster 을 사용하는것이 좋다.
+        * */
+        LocalDate nextWorkingDay3 = today.with(TemporalAdjusters.ofDateAdjuster(temporal -> {
+            DayOfWeek dow = DayOfWeek.of(temporal.get(ChronoField.DAY_OF_WEEK)); // 현재 요일 읽기
+
+            int dayToAdd = 1; // 일,월,화,수,목 은 1일 추가 (바로 다음날 일해야 하기 때문에)
+            if (dow == DayOfWeek.FRIDAY) {  // 그러나 금요일이면 3일 추가
+                dayToAdd = 3;
+            } else if (dow == DayOfWeek.SATURDAY) { // 토요일이면 2일 추가
+                dayToAdd = 2;
+            }
+
+            return temporal.plus(dayToAdd, ChronoUnit.DAYS); // 적정한 날 수 만큼 추가된 날짜를 반환
+        }));
+
+        System.out.println(nextWorkingDay);
+        System.out.println(nextWorkingDay2);
+        System.out.println(nextWorkingDay3);
     }
 
     private static void temporalAdjusters() {
+        /*
+        * TemporalAdjusters 를 사용하면 좀 더 복잡한 날짜 조정 기능을 직관적으로 해결할 수 있다.
+        * */
         LocalDate date1 = LocalDate.of(2022, 12, 03); // 2022-12-03
         LocalDate date2 = date1.with(nextOrSame(DayOfWeek.SUNDAY)); // 2022-12-04
         LocalDate date3 = date2.with(lastDayOfMonth()); // 2022-12-31
@@ -171,5 +215,22 @@ public class DateTimeExamples {
         System.out.println(dow); // WEDNESDAY
         System.out.println(len); // 30 (11월의 일수)
         System.out.println(leap); // false - 윤년이 아님
+    }
+
+    static class NextWorkingDay implements TemporalAdjuster {
+
+        @Override
+        public Temporal adjustInto(Temporal temporal) {
+            DayOfWeek dow = DayOfWeek.of(temporal.get(ChronoField.DAY_OF_WEEK)); // 현재 요일 읽기
+
+            int dayToAdd = 1; // 일,월,화,수,목 은 1일 추가 (바로 다음날 일해야 하기 때문에)
+            if (dow == DayOfWeek.FRIDAY) {  // 그러나 금요일이면 3일 추가
+                dayToAdd = 3;
+            } else if (dow == DayOfWeek.SATURDAY) { // 토요일이면 2일 추가
+                dayToAdd = 2;
+            }
+
+            return temporal.plus(dayToAdd, ChronoUnit.DAYS); // 적정한 날 수 만큼 추가된 날짜를 반환
+        }
     }
 }
