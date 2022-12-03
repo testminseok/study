@@ -4,6 +4,9 @@ import java.time.*;
 import java.time.temporal.ChronoField;
 import java.time.temporal.ChronoUnit;
 
+import static java.time.temporal.TemporalAdjusters.lastDayOfMonth;
+import static java.time.temporal.TemporalAdjusters.nextOrSame;
+
 public class DateTimeExamples {
 
     private static final LocalDate DATE = LocalDate.of(2022, 12, 01);
@@ -28,6 +31,15 @@ public class DateTimeExamples {
         period();
         withAttribute();
         withRelativeAttribute();
+        temporalAdjusters();
+    }
+
+    private static void temporalAdjusters() {
+        LocalDate date1 = LocalDate.of(2022, 12, 03); // 2022-12-03
+        LocalDate date2 = date1.with(nextOrSame(DayOfWeek.SUNDAY)); // 2022-12-04
+        LocalDate date3 = date2.with(lastDayOfMonth()); // 2022-12-31
+
+        System.out.println(date3);
     }
 
     private static void withRelativeAttribute() {
