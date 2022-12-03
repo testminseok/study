@@ -19,19 +19,28 @@ public class DateTimeExamples {
         * Temporal interface 는 특정 시간을 모델링하는 객체의 값을 어떻게 읽고 조작할지 정의한다.
         * */
         localDate();
+        System.out.println("----------------------------");
         localTime();
+        System.out.println("----------------------------");
         localDateTime();
+        System.out.println("----------------------------");
         instant();
+        System.out.println("----------------------------");
 
         /*
         * 두 시간 객체 사이의 지속시간 Duration 은 초와 나노초로 시간단위를 표현하므로 between 에 LocalDate 를 사용할 수 없다
         * Period 의 between 으로 LocalDate 의 차이를 확인할 수 있다.
         * */
         duration();
+        System.out.println("----------------------------");
         period();
+        System.out.println("----------------------------");
         withAttribute();
+        System.out.println("----------------------------");
         withRelativeAttribute();
+        System.out.println("----------------------------");
         temporalAdjusters();
+        System.out.println("----------------------------");
     }
 
     private static void temporalAdjusters() {
