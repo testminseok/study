@@ -26,6 +26,26 @@ public class DateTimeExamples {
         * */
         duration();
         period();
+        withAttribute();
+        withRelativeAttribute();
+    }
+
+    private static void withRelativeAttribute() {
+        LocalDate date1 = LocalDate.of(2022, 12, 03); // 2022-12-03
+        LocalDate date2 = date1.plusWeeks(1); // 2022-12-10
+        LocalDate date3 = date2.minusYears(6); // 2016-12-10
+        LocalDate date4 = date3.plus(6, ChronoUnit.MONTHS); // 2017-06-10
+
+        System.out.println(date4);
+    }
+
+    private static void withAttribute() {
+        LocalDate date1 = LocalDate.of(2022, 12, 03); // 2022-12-03
+        LocalDate date2 = date1.withYear(2023); // 2023-12-03
+        LocalDate date3 = date2.withDayOfMonth(01); // 2023-12-01
+        LocalDate date4 = date3.with(ChronoField.MONTH_OF_YEAR, 1); // 2023-01-01
+
+        System.out.println(date4);
     }
 
     private static void period() {
