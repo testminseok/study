@@ -1,7 +1,10 @@
 package examples.chap12;
 
 import java.time.*;
+import java.time.format.DateTimeFormatter;
+import java.time.format.DateTimeFormatterBuilder;
 import java.time.temporal.*;
+import java.util.Locale;
 
 import static java.time.temporal.TemporalAdjusters.lastDayOfMonth;
 import static java.time.temporal.TemporalAdjusters.nextOrSame;
@@ -42,6 +45,42 @@ public class DateTimeExamples {
         System.out.println("----------------------------");
         implementsTemporalAdjuster();
         System.out.println("----------------------------");
+        formatter();
+        System.out.println("----------------------------");
+    }
+
+    private static void formatter() {
+        String s1 = DATE.format(DateTimeFormatter.BASIC_ISO_DATE);
+        String s2 = DATE.format(DateTimeFormatter.ISO_LOCAL_DATE);
+
+        System.out.println(DATE);
+        System.out.println(s1);
+        System.out.println(s2);
+
+        LocalDate date1 = LocalDate.parse("20221204", DateTimeFormatter.BASIC_ISO_DATE);
+        LocalDate date2 = LocalDate.parse("2022-12-04", DateTimeFormatter.ISO_LOCAL_DATE);
+
+        System.out.println(date1);
+        System.out.println(date2);
+
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
+        String format = DATE.format(formatter);
+        System.out.println(format);
+        System.out.println(LocalDate.parse(format, formatter)); // 다시 LocalDate 로 변환
+
+        DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ofPattern("yyyy/MM/dd HH:mm:ss a");
+        System.out.println(LocalDateTime.now().format(dateTimeFormatter));
+
+        DateTimeFormatter timeFormatterBuilder = new DateTimeFormatterBuilder()
+                .appendText(ChronoField.DAY_OF_MONTH)
+                .appendLiteral(". ")
+                .appendText(ChronoField.MONTH_OF_YEAR)
+                .appendLiteral(" ")
+                .appendText(ChronoField.YEAR)
+                .parseCaseInsensitive()
+                .toFormatter(Locale.ITALIAN);
+
+        System.out.println(DATE.format(timeFormatterBuilder)); // 1. dicembre 2022
     }
 
     private static void implementsTemporalAdjuster() {
