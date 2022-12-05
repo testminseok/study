@@ -5,6 +5,7 @@ import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeFormatterBuilder;
 import java.time.temporal.*;
 import java.util.Locale;
+import java.util.TimeZone;
 
 import static java.time.temporal.TemporalAdjusters.lastDayOfMonth;
 import static java.time.temporal.TemporalAdjusters.nextOrSame;
@@ -47,6 +48,33 @@ public class DateTimeExamples {
         System.out.println("----------------------------");
         formatter();
         System.out.println("----------------------------");
+        zoneId();
+        System.out.println("----------------------------");
+    }
+
+    private static void zoneId() {
+        ZoneId romeZone = ZoneId.of("Europe/Rome"); // 지역/도시
+        System.out.println(romeZone);
+
+        ZoneId zoneId = TimeZone.getDefault().toZoneId();
+        System.out.println(zoneId);
+
+        /*
+        * LocalDate, LocalDateTime, Instant 로 ZonedDateTime 추출
+        * */
+        LocalDate date = LocalDate.of(2022, 12, 05);
+        ZonedDateTime zdt1 = date.atStartOfDay(romeZone);
+        LocalDateTime dateTime = LocalDateTime.of(2022, 12, 05, 17, 22);
+        ZonedDateTime zdt2 = dateTime.atZone(romeZone);
+        Instant instant = Instant.now();
+        ZonedDateTime zdt3 = instant.atZone(romeZone);
+
+        System.out.println(zdt1);
+        System.out.println(zdt2);
+        System.out.println(zdt3);
+
+        LocalDateTime localDateTime = LocalDateTime.ofInstant(instant, romeZone);
+        System.out.println(localDateTime);
     }
 
     private static void formatter() {
