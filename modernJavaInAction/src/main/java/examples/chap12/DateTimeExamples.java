@@ -50,6 +50,16 @@ public class DateTimeExamples {
         System.out.println("----------------------------");
         zoneId();
         System.out.println("----------------------------");
+        zoneOffset();
+        System.out.println("----------------------------");
+    }
+
+    private static void zoneOffset() {
+        // UTC/GMT 를 기준으로 시간대를 표현한다. 뉴욕은 런던보다 5시간 느리다 를 표현할 수 있다.
+        ZoneOffset newYorkOffset = ZoneOffset.of("-05:00");
+        LocalDateTime dateTime = LocalDateTime.of(2022, 12, 06, 17, 33, 35);
+        OffsetDateTime dateTimeInNewYork = OffsetDateTime.of(dateTime, newYorkOffset);
+        System.out.println(dateTimeInNewYork);
     }
 
     private static void zoneId() {
