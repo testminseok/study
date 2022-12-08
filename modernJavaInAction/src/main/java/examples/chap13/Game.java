@@ -15,6 +15,10 @@ public class Game {
         * */
         List<Resizable> resizableShapes = Arrays.asList(new Square(), new Rectangle(), new Ellipse());
         Utils.paint(resizableShapes);
+
+        Monster monster = new Monster();
+        monster.rotateBy(180); // Rotatable 의 디폴트 메소드
+        monster.moveHorizontally(10); // Moveable 의 디폴트 메소드
     }
 
     private static class Utils {
