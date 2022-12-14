@@ -29,8 +29,12 @@ public class Shop {
     public Future<Double> getPriceAsync(String product) {
         CompletableFuture<Double> completableFuture = new CompletableFuture<>(); // 계산 결과를 포함할 CompletableFuture 를 생성
         new Thread(() -> {
-            double price = calculatePrice(product); // 다른 스레드에서 비동기적으로 계산을 수행한다.
-            completableFuture.complete(price); // 오랜 시간이 걸리는 계산이 완료되면 Future 에 값을 설정한다.
+            try {
+                double price = calculatePrice(product); // 다른 스레드에서 비동기적으로 계산을 수행한다.
+                completableFuture.complete(price); // 계산이 정상적으로 종료되면 Future 에 가격정보를 저장한채로 Future 를 종료한다.
+            } catch (Exception e) {
+                completableFuture.completeExceptionally(e); // 도중에 문제가 발생하면 발생한 에러를 포함시켜 Future 를 종료한다.
+            }
         }).start();
 
         return completableFuture; // 계산 결과가 완료되길 기다리지 않고 Future 를 반환한다.
