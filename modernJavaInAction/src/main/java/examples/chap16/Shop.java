@@ -40,6 +40,14 @@ public class Shop {
         return completableFuture; // 계산 결과가 완료되길 기다리지 않고 Future 를 반환한다.
     }
 
+    public Future<Double> getPriceAsyncBySupplyAsync(String product) {
+        /*
+        * CompletableFuture.supplyAsync(Supplier, Executor) 메소드를 통해 다른 Executor 를 지정할 수 있다.
+        * SupplyAsync 를 사용한 에러처리도 getPriceAsync 메소드와 동일하다.
+        * */
+        return CompletableFuture.supplyAsync(() -> calculatePrice(product));
+    }
+
     public double calculatePrice(String product) {
         delay();
         return secureRandom.nextDouble() * product.charAt(0) + product.charAt(1);
