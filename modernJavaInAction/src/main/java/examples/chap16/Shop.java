@@ -52,4 +52,8 @@ public class Shop {
         delay();
         return secureRandom.nextDouble() * product.charAt(0) + product.charAt(1);
     }
+
+    public String getName() {
+        return name;
+    }
 }
