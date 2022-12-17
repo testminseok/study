@@ -22,5 +22,15 @@ public class BestPriceFinderMain {
         System.out.println(BestPriceFinder.findPricesByCompletableFutureAndExecutor("myPhone27S"));
         duration = (System.nanoTime() - start) / 1_000_000;
         System.out.println("Done in " + duration + " msecs");
+
+        start = System.nanoTime();
+        System.out.println(BestPriceFinder.findPricesByDiscount("myPhone27S"));
+        duration = (System.nanoTime() - start) / 1_000_000;
+        System.out.println("Done in " + duration + " msecs");
+
+        start = System.nanoTime();
+        System.out.println(BestPriceFinder.findPricesByDiscountAsync("myPhone27S"));
+        duration = (System.nanoTime() - start) / 1_000_000;
+        System.out.println("Done in " + duration + " msecs");
     }
 }

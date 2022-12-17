@@ -26,6 +26,12 @@ public class Shop {
         return calculatePrice(product);
     }
 
+    public String getPriceByDiscountCode(String product) {
+        double price = calculatePrice(product);
+        Discount.Code code = Discount.Code.values()[secureRandom.nextInt(Discount.Code.values().length)];
+        return String.format("%s:%.2f:%s", name, price, code);
+    }
+
     public Future<Double> getPriceAsync(String product) {
         CompletableFuture<Double> completableFuture = new CompletableFuture<>(); // 계산 결과를 포함할 CompletableFuture 를 생성
         new Thread(() -> {
