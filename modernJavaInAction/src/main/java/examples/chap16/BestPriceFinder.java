@@ -1,10 +1,8 @@
 package examples.chap16;
 
+import java.util.ArrayList;
 import java.util.List;
-import java.util.concurrent.CompletableFuture;
-import java.util.concurrent.Executor;
-import java.util.concurrent.Executors;
-import java.util.concurrent.ThreadFactory;
+import java.util.concurrent.*;
 
 public class BestPriceFinder {
     private static final List<Shop> shops = List.of(
@@ -115,5 +113,75 @@ public class BestPriceFinder {
         return priceFutures.stream()
                 .map(CompletableFuture::join)
                 .toList();
+    }
+
+    /**
+     * 독립 CompletableFuture 와 비독립 CompletableFuture 합치기
+     * */
+    public static List<String> findUSDPricesInJDK8(String product) {
+        List<CompletableFuture<String>> completableFutures = shops.stream()
+                .map(shop ->
+                        CompletableFuture.supplyAsync(() -> shop.getPrice(product)) // 제품가격 정보를 요청하는 첫번째 태스크 생성
+                                .thenCombine(
+                                        CompletableFuture.supplyAsync(
+                                                /*
+                                                * USD, EUR 의 환율 정보를 요청하는 독립적인 두 번째 태스크를 생성한다.
+                                                * */
+                                                () -> ExchangeService.getRate(Money.EUR, Money.USD)
+                                        ),
+                                        /*
+                                        * 두 결과를 곱해서 가격과 환율 정보를 합친다.
+                                        * */
+                                        (price, rate) -> price * rate
+                                ).thenApply(price -> shop.getName() + " price is " + price)
+                ).toList();
+
+        return completableFutures.stream()
+                .map(CompletableFuture::join)
+                .toList();
+    }
+
+    /**
+     * 자바 8과 자바 7의 비교
+     * - 자바 8 에서는 CompletableFuture 를 람다 표현식을 사용하여 다양한 동기 태스크, 비동기 태스크를 활용해서 복잡한 연산 수행방법을
+     *   선언형 API 로 만들 수 있다. ( 가독성이 좋아진다 )
+     * */
+    public static List<String> findUSDPricesInJDK7(String product) {
+        /*
+        * 태스크를 스레드 풀에 제출할 수 있도록 서비스 생성
+        * */
+        ExecutorService executorService = Executors.newCachedThreadPool();
+        List<Future<Double>> priceFutures = new ArrayList<>();
+        for (Shop shop : shops) {
+            final Future<Double> futureRate = executorService.submit(new Callable<Double>() {
+                @Override
+                public Double call() throws Exception { // EUR, USD 환율 정보를 가져올 Future 생성
+                    return ExchangeService.getRate(Money.EUR, Money.USD);
+                }
+            });
+
+            final Future<Double> futureUSDPrice = executorService.submit(new Callable<Double>() {
+                @Override
+                public Double call() throws Exception {
+                    double eurPrice = shop.getPrice(product); // 두 번째 Future 로 상점에서 요청 제품의 가격을 검색
+                    return eurPrice * futureRate.get();  // 가격을 검색한 Future 를 이용해서 가격과 환율을 곱한다.
+                }
+            });
+
+            priceFutures.add(futureUSDPrice);
+        }
+
+        List<String> result = new ArrayList<>();
+        for (Future<Double> priceFuture : priceFutures) {
+            try {
+                result.add(" price is " + priceFuture.get());
+            } catch (InterruptedException e) {
+                throw new RuntimeException(e);
+            } catch (ExecutionException e) {
+                throw new RuntimeException(e);
+            }
+        }
+
+        return result;
     }
 }
