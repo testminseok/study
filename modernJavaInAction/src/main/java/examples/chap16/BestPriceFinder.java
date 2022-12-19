@@ -184,4 +184,36 @@ public class BestPriceFinder {
 
         return result;
     }
+
+    public static List<String> findUSDPrices(String product) {
+        List<CompletableFuture<String>> completableFutures = shops.stream()
+                .map(shop ->
+                        CompletableFuture.supplyAsync(() -> shop.getPrice(product)) // 제품가격 정보를 요청하는 첫번째 태스크 생성
+                                .thenCombine(
+                                        CompletableFuture.supplyAsync(
+                                                /*
+                                                 * USD, EUR 의 환율 정보를 요청하는 독립적인 두 번째 태스크를 생성한다.
+                                                 * */
+                                                () -> ExchangeService.getRate(Money.EUR, Money.USD)
+                                        /*
+                                        * ex) 환전 서비스가 일 초 안에 결과를 제공하지 않으면 기본 환율값을 적용
+                                        * */
+                                        ).completeOnTimeout(Money.DEFAULT.getRate(), 1, TimeUnit.SECONDS),
+                                        /*
+                                         * 두 결과를 곱해서 가격과 환율 정보를 합친다.
+                                         * */
+                                        (price, rate) -> price * rate
+                                )
+                                /*
+                                 * 3초 뒤에 작업이 완료되지 않으면 Future 가 TimeOutException 을 발생시키도록 설정.
+                                 * 자바 9에서는 비동기 타임아웃 관리 기능이 추가됨
+                                 * */
+                                .orTimeout(3, TimeUnit.SECONDS)
+                                .thenApply(price -> shop.getName() + " price is " + price)
+                ).toList();
+
+        return completableFutures.stream()
+                .map(CompletableFuture::join)
+                .toList();
+    }
 }
