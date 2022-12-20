@@ -3,6 +3,7 @@ package examples.chap16;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.*;
+import java.util.stream.Stream;
 
 public class BestPriceFinder {
     private static final List<Shop> shops = List.of(
@@ -215,5 +216,35 @@ public class BestPriceFinder {
         return completableFutures.stream()
                 .map(CompletableFuture::join)
                 .toList();
+    }
+
+    /*
+    * 단순하게 CompletableFuture 의 행동을 등록한다.
+    * */
+    public static Stream<CompletableFuture<String>> findPricesStream(String product) {
+        return shops.stream()
+                .map(shop -> CompletableFuture.supplyAsync(
+                        () -> shop.getPriceByDiscountCode(product),
+                        executor
+                ))
+                .map(future -> future.thenApply(Quote::parse))
+                .map(future -> future.thenCompose(quote ->
+                        CompletableFuture.supplyAsync(
+                                () -> Discount.applyDiscount(quote),
+                                executor
+                        )
+                ));
+    }
+
+    public static void printStreamPrices(String product) {
+        CompletableFuture[] completableFutures = findPricesStream(product)
+                .map(f -> f.thenAccept(System.out::println))
+                .toArray(size -> new CompletableFuture[size]);
+
+        CompletableFuture<Void> voidCompletableFuture = CompletableFuture.allOf(completableFutures);
+        voidCompletableFuture.join(); // 모든 CompletableFuture 의 실행완료를 기다린다.
+
+//        CompletableFuture<Object> objectCompletableFuture = CompletableFuture.anyOf(completableFutures);
+//        objectCompletableFuture.join(); // 하나의 CompletableFuture 의 실행완료를 기다린다.
     }
 }
