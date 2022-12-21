@@ -237,8 +237,11 @@ public class BestPriceFinder {
     }
 
     public static void printStreamPrices(String product) {
+        long start = System.nanoTime();
         CompletableFuture[] completableFutures = findPricesStream(product)
-                .map(f -> f.thenAccept(System.out::println))
+                .map(f -> f.thenAccept((s) -> {
+                    System.out.println(s + "(done in " + ((System.nanoTime() - start) / 1_000_000) + " msecs)");
+                }))
                 .toArray(size -> new CompletableFuture[size]);
 
         CompletableFuture<Void> voidCompletableFuture = CompletableFuture.allOf(completableFutures);
