@@ -31,6 +31,11 @@ ReactiveManifesto 란 ReactiveApplication 과 SystemDevelopment 핵심 원칙을
   - request 메소드는 Publisher 에게 주어진 개수의 이번트를 처리할 준비가 되었음을 알릴 수 있다.
   - cancel 메소드는 Publisher 에게 더 이상 이벤트를 받지 않음을 통지한다.
 - Processor
+  - Processor 인터페이스는 단지 Publisher 와 Subscriber 를 상속 받을 뿐 아무 메소드도 추가하지 않는다.
+  - public static interface Processor<T,R> extends Subscriber<T>, Publisher<R> {}
+  - 실제 이 인터페이스는 리액티브 스트림에서 처리하는 이벤트의 변환 단계를 나타낸다, Processor 가 에러를 수신하면 
+    이로부터 회복하거나(그리고 Subscription 은 취소로 간주) 즉시 onError 신호로 모든 Subscriber 에 에러를 전파할 수 있다.
+    마지막 Subscriber 가 Subscription 을 취소하면 Process 는 자신의 업스트림 Subscription 도 취소함으로 취소 신호를 전파해야 한다. 
 - 규칙집합 정의
   - Publisher 는 반드시 Subscription 의 request 메소드에 정의된 개수 이하의 요소만 Subscriber 에 전달해야한다.
     하지만 Publisher 는 지정된 개수보다 적은 수의 요소를 onNext 로 전달할 수 있으며 동작이 성공적으로 끝났으면 onComplete 를 호출하고
