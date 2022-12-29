@@ -31,4 +31,12 @@ public class TempObservable {
         return getTemperature(town)
                 .map(tempInfo -> new TempInfo(tempInfo.town(), (tempInfo.temp() - 32) * 5 / 9));
     }
+
+    /**
+    * 퀴즈 - 사용자가 동상에 걸릴 위험이 있을때 알려주는 경고 시스템 (온도가 섭씨 0도 이하일 경우만 온도를 방출)
+    * */
+    public static Observable<TempInfo> getSubZeroTemperature(String town) {
+        return getCelsiusTemperature(town)
+                .filter(tempInfo -> tempInfo.temp() <= 0);
+    }
 }

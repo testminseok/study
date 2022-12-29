@@ -13,6 +13,8 @@ public class Main {
         /*
         * 섭씨를 화씨로 변경
         * */
-        TempObservable.getCelsiusTemperature("New York").blockingSubscribe(new TempObserver());
+//        TempObservable.getCelsiusTemperature("New York").blockingSubscribe(new TempObserver());
+
+        TempObservable.getSubZeroTemperature("new York").blockingSubscribe(new TempObserver());
     }
 }
