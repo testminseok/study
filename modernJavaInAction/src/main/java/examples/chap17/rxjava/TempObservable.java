@@ -3,6 +3,7 @@ package examples.chap17.rxjava;
 import examples.chap17.temperature.TempInfo;
 import io.reactivex.rxjava3.core.Observable;
 
+import java.util.Arrays;
 import java.util.concurrent.TimeUnit;
 
 public class TempObservable {
@@ -38,5 +39,15 @@ public class TempObservable {
     public static Observable<TempInfo> getSubZeroTemperature(String town) {
         return getCelsiusTemperature(town)
                 .filter(tempInfo -> tempInfo.temp() <= 0);
+    }
+
+    /**
+     *  한 개 이상의 도시의 온도 보고를 합친다.
+     * */
+    public static Observable<TempInfo> getCelsiusTemperatures(String... towns) {
+        return Observable.merge(
+                Arrays.stream(towns)
+                        .map(TempObservable::getCelsiusTemperature)
+                        .toList());
     }
 }

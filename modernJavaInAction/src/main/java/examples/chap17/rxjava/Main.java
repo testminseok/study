@@ -15,6 +15,9 @@ public class Main {
         * */
 //        TempObservable.getCelsiusTemperature("New York").blockingSubscribe(new TempObserver());
 
-        TempObservable.getSubZeroTemperature("new York").blockingSubscribe(new TempObserver());
+//        TempObservable.getSubZeroTemperature("new York").blockingSubscribe(new TempObserver());
+
+        TempObservable.getCelsiusTemperatures("New York", "Chicago", "San Francisco")
+                .blockingSubscribe(new TempObserver());
     }
 }
