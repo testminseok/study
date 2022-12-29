@@ -23,4 +23,12 @@ public class TempObservable {
                             }
                         }));
     }
+
+    /**
+     * Observable map 함수를 이용하여 화씨를 섭씨로 변경
+     * */
+    public static Observable<TempInfo> getCelsiusTemperature(String town) {
+        return getTemperature(town)
+                .map(tempInfo -> new TempInfo(tempInfo.town(), (tempInfo.temp() - 32) * 5 / 9));
+    }
 }
