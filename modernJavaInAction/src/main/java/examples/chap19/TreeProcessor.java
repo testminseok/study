@@ -44,4 +44,25 @@ public class TreeProcessor {
 
         return tree;
     }
+
+    public static Tree functionalUdate(String key, int newValue, Tree tree) {
+        if (tree == null) {
+            return new Tree(key, newValue, null, null);
+        }
+
+        if (key.equals(tree.getKey())) {
+            return new Tree(key, newValue, tree.getLeft(), tree.getRight());
+        }
+
+        if (key.compareTo(tree.getKey()) < 0) {
+            return new Tree(
+                    tree.getKey(),
+                    tree.getValue(),
+                    functionalUdate(key, newValue, tree.getLeft()),
+                    tree.getRight()
+            );
+        }
+
+        return new Tree(tree.getKey(), tree.getValue(), tree.getLeft(), functionalUdate(key, newValue, tree.getRight()));
+    }
 }

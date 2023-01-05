@@ -1,7 +1,6 @@
 package examples.chap19;
 
-import static examples.chap19.TreeProcessor.lookup;
-import static examples.chap19.TreeProcessor.update2;
+import static examples.chap19.TreeProcessor.*;
 
 public class PersistentTree {
     public static void main(String[] args) {
@@ -17,7 +16,14 @@ public class PersistentTree {
         System.out.printf("Raoul: %d%n", lookup("Raoul", -1, tree));
         System.out.printf("Jeff: %d%n", lookup("Jeff", -1, tree));
 
+        Tree functionalUpdateTree = functionalUdate("Jeff", 80, tree);
+        System.out.printf("Jeff: %d%n", lookup("Jeff", -1, functionalUpdateTree)); // 발견 80
+
         Tree updateTree = update2("Jim", 40, tree);
         System.out.printf("Jim: %d%n", lookup("Jim", -1, updateTree));
+        /*
+        * functionalUpdate 로 tree 의 원본 데이터가 수정되지 않았기 때문에 -1 을 반환
+        * */
+        System.out.printf("Jeff: %d%n", lookup("Jeff", -1, updateTree));
     }
 }
