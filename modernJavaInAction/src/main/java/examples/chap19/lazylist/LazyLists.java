@@ -1,4 +1,4 @@
-package examples.chap19;
+package examples.chap19.lazylist;
 
 import java.util.stream.IntStream;
 
@@ -7,7 +7,24 @@ public class LazyLists {
     public static void main(String[] args) {
         IntStream numbers = numbers();
         int head = head(numbers);
-        IntStream filtered = tail(numbers).filter(n -> n % head != 0);
+//        IntStream filtered = tail(numbers).filter(n -> n % head != 0);
+
+        /*
+        * 기본적인 연결 리스트
+        * */
+        MyList<Integer> l = new MyLinkedList<>(5, new MyLinkedList<>(10, new EmptyList<>()));
+
+        /*
+        * 기본적인 게으른 리스트
+        * Supplier<T> 를 이용해서 게으른 리스트를 만들면 꼬리가 모두 메모리에 존재하지 않게 할 수 있다.
+        * */
+        LazyList<Integer> numbersByLazy = from(2);
+        int two = numbersByLazy.head();
+        int three = numbersByLazy.tail().head();
+        int four = numbersByLazy.tail().tail().head();
+        System.out.println(two);
+        System.out.println(three);
+        System.out.println(four);
     }
 
     /**
@@ -46,5 +63,9 @@ public class LazyLists {
         * 또는 이름에 의한 호출(call by name) 이라고 한다) 즉 소수를 처리할 필요가 있을 때만 스트림을 실제로 평가한다.
         * */
         return IntStream.concat(IntStream.of(head), primes(tail(numbers).filter(n -> n % head != 0)));
+    }
+
+    public static LazyList<Integer> from(int n) {
+        return new LazyList<>(n, () -> from(n + 1));
     }
 }
