@@ -36,6 +36,12 @@ public class LazyLists {
         System.out.println(two2);
         System.out.println(three2);
         System.out.println(four2);
+
+        /*
+        * 아래 코드는 모든 소수를 출력할 수 있으나,
+        * StackOverflowError 를 발생시킨다.
+        * */
+//        printAll(numbersByLazyFilter);
     }
 
     /**
@@ -76,14 +82,34 @@ public class LazyLists {
         return IntStream.concat(IntStream.of(head), primes(tail(numbers).filter(n -> n % head != 0)));
     }
 
+    /**
+     * 연속적인 숫자의 다음 요소를 만드는 LazyList 의 생성자에 tail 인수로 Supplier 를 전달하는 방식으로
+     * n 으로 시작하는 무한히 게으른 리스트를 만들 수 있다.
+     * tail() 를 실행 할때마다 전달된 Supplier 함수가 실행되며 새로운 LazyList 를 만들어 낸다.
+     * */
     public static LazyList<Integer> from(int n) {
         return new LazyList<>(n, () -> from(n + 1));
     }
 
+    /**
+     * tail() 을 호출할때마다 전달된 LazyList 의 생성자에 tail 인수로 Supplier 함수가 실행되며
+     * 소수를 구하는 filter 함수가 실행된다.
+     * */
     public static MyList<Integer> primes(MyList<Integer> numbers) {
         return new LazyList<>(
                 numbers.head(),
                 () -> primes(numbers.tail().filter(n -> n % numbers.head() != 0))
         );
+    }
+
+    /**
+     * 반복적으로 리스트의 머리와 꼬리를 출력하면서 printAll 메소드를 무한으로 실행한다.
+     * 무한으로 실행되기 때문에 StackOverflowError 이 발생된다.
+     * */
+    public static <T> void printAll(MyList<T> list) {
+        if (!list.isEmpty()) {
+            System.out.println(list.head());
+            printAll(list.tail());
+        }
     }
 }
