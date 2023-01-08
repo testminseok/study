@@ -25,6 +25,17 @@ public class LazyLists {
         System.out.println(two);
         System.out.println(three);
         System.out.println(four);
+
+        /*
+        * 게으른 필터 구현
+        * */
+        LazyList<Integer> numbersByLazyFilter = from(2);
+        int two2 = primes(numbersByLazyFilter).head();
+        int three2 = primes(numbersByLazyFilter).tail().head();
+        int four2 = primes(numbersByLazyFilter).tail().tail().head();
+        System.out.println(two2);
+        System.out.println(three2);
+        System.out.println(four2);
     }
 
     /**
@@ -67,5 +78,12 @@ public class LazyLists {
 
     public static LazyList<Integer> from(int n) {
         return new LazyList<>(n, () -> from(n + 1));
+    }
+
+    public static MyList<Integer> primes(MyList<Integer> numbers) {
+        return new LazyList<>(
+                numbers.head(),
+                () -> primes(numbers.tail().filter(n -> n % numbers.head() != 0))
+        );
     }
 }
