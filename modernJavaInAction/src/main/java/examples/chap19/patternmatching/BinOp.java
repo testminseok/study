@@ -5,6 +5,12 @@ public class BinOp extends Expr {
 
     private Expr left, right;
 
+    public BinOp(String opname, Expr left, Expr right) {
+        this.opname = opname;
+        this.left = left;
+        this.right = right;
+    }
+
     public Expr accept(SimplifyExprVisitor exprVisitor) {
         return exprVisitor.visit(this);
     }
