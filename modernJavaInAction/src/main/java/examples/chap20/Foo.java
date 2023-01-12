@@ -1,4 +1,4 @@
-package examples;
+package examples.chap20;
 
 import java.util.stream.IntStream;
 
