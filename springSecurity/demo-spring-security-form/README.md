@@ -29,7 +29,7 @@ Spring Security 에서 제공하는 Filter 는 다음과 같은 순서를 가진
 - RequestCacheAwareFilter
 - SecurityContextHolderAwareRequestFilter
 - JaasApiIntegrationFilter
-- RememberMeAuthenticationFilter
+- [RememberMeAuthenticationFilter](#rememberMeAuthenticationFilter)
 - AnonymousAuthenticationFilter
 - OAuth2AuthorizationCodeGrantFilter
 - SessionManagementFilter
@@ -102,6 +102,18 @@ BasicAuthenticationFilter 또한 인증을 진행할 수 있는 방법 중 하�
 HttpHeader 에 Authorization : Basic Base64.encode("{myId:myPassword}") 와 같이 아이디와 비밀번호를 형식({id:password})에 맞춰 
 Base64 로 인코딩 한 후 인증서버에 인증을 요청하면 해당 서버는 고객정보를 확인하여 접근을 허가한다.
 > Basic 방식의 인증은 고객의 아이디 와 비밀번호가 포함되어 있으므로, 탈취 될경우 보안상 큰 이슈가 발생하기 떄문에, HTTPS 를 사용하는것은 필연적이다.
+
+## RememberMeAuthenticationFilter
+RememberMeAuthenticationFilter 는 사용자가 로그인을 하고, 로그인 상태를 유지하기 위해 RememberMe 기능을 사용할 경우,
+사용자가 로그인을 하지 않아도 RememberMe 기능을 통해 인증을 진행한다. RememberMe 기능을 사용하면 사용자 로그인이 완료되면 
+remember-me 라는 cookie 가 생성되고 이 cookie 값은 기본적으로 아이디를 포함하고 있는 token 값을 가진다. 이후 완전 로그아웃이 되었을때도 
+이 cookie 의 token 값을 가지고 인증을 진행한다. 이때, RememberMe 기능을 사용하기 위해서는 RememberMeAuthenticationFilter 를
+SecurityFilterChain 에 등록해야 한다.
+
+> RememberMe 는 기본적으로 TokenBasedRememberMeServices 를 사용하며, 이는 Token 을 생성하고 검증하는 역할을 한다.
+> Token 은 아이디와 만료시간, 시크릿키를 사용하여 생성한다. 만약, 만료시간이 지나면 인증이 실패하고, 시크릿키가 다르면 인증이 실패한다.
+> username + ":" + expiryTime + ":" + Md5Hex(username + ":" + expiryTime + ":" + password + ":" + key) 의 형태로 token 이 발급된다.
+> 또는 PersistentTokenBasedRememberMeServices 를 사용할 수 있는데 이는 Token 을 DB 에 저장하고, 검증하는 역할을 한다.
 
 ## ExceptionTranslationFilter
 AuthorizationFilter 또는 FilterSecurityInterceptor 에서 AuthenticationException 과 
