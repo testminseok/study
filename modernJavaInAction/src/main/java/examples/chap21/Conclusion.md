@@ -48,4 +48,8 @@ map, filter, ifPresent 를 제공한다. 스트림 클래스가 제공하는 것
 시스템 라이브러리가 내부 반복을 하느냐 아니면 외부 반복을 하느냐와 같은 의미를 갖는다. 
 자바 9에서는 Optional API 에 stream(), or(), ifPresentOrElse() 등의 새로운 메소드가 추가됐다.
 
+## Flow API 
+자바 9에서는 리액티브 스트림과 리액티브 당김 기반 역압력 프로토콜(소비자가 빠른 생산자를 대응하지 못해 발생하는 문제를 방지하는 기법) 을 표준화 했다.
+Flow API 는 호환성을 높일 수 있도록 라이브러리가 구현할 수 있는 네 개의 인터페이스 Publisher, Subscriber, Subscription, Processor 를 포함한다.
+
 
