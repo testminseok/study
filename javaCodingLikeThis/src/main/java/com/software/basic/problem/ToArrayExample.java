@@ -11,6 +11,8 @@ import java.util.List;
  *                                   그렇지 않으면 ClassCastException 이 발생한다.
  */
 public class ToArrayExample {
+
+    private static final SAMPLE_LIST;
     public static void main(String[] args) {
         List<String> list = new ArrayList<>();
         list.add("aaa");
