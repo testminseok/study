@@ -1,6 +1,7 @@
 package com.software.basic.problem;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 /**
@@ -12,15 +13,10 @@ import java.util.List;
  */
 public class ToArrayExample {
 
-    private static final SAMPLE_LIST;
+    private static final List SAMPLE_LIST = List.of("aaa", "bbb", "ccc");
     public static void main(String[] args) {
-        List<String> list = new ArrayList<>();
-        list.add("aaa");
-        list.add("bbb");
-        list.add("ccc");
-
-        badCode(list);
-        goodCode(list);
+        badCode(SAMPLE_LIST);
+        goodCode(SAMPLE_LIST);
 
     }
 
