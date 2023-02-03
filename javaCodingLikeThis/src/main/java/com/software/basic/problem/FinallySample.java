@@ -58,6 +58,6 @@ public class FinallySample {
             e.printStackTrace();
         }
 
-        return result.toString()
+        return result.toString();
     }
 }
