@@ -2,6 +2,16 @@ package com.software.basic.problem.string;
 
 /**
  * 4-6 StringBuilder/StringBuffer 사용시 주의해야하는 실수
+ * - UseStringBufferLength : StringBuffer.toString().equals("") 또는 StringBuffer.toString().length() 를 사용하는 경우
+ *                           수정을 권고한다. ex) StringBuffer.toString().equals("") === StringBuffer.length() == 0
+ * - ConsecutiveLiteralAppends : 리터럴 문자열으로 연속적으로 append() 를 호출하는 경우 수정을 권고한다.
+ *                               리터럴 문자열은 상수이기 때문에 단일 리터럴 문자열로 결합될 수 있으므로 append 를 한번만 호출할 수 있다.
+ * - AvoidStringBufferField : StringBuffer/StringBuilder 를 클래스 멤버 변수로 사용할 경우 수정을 권고한다.
+ *                            StringBuffer 와 StringBuilder 는 상당히 커질 수 있으므로 수명이 긴 개체에서 사용할 경우
+ *                            메모리 누수의 원인이 될 수 있다.
+ * - InsufficientStringBufferDeclaration : StringBuffer/StringBuilder 는 문자열의 길이를 생성자에 전달하지 않을경우 수정을 권고한다.
+ *                                         StringBuffer/StringBuilder 는 생성자로 길이를 초기화 하지않으면 기본 16자를 값으로 가진다.
+ *                                         크기 조절의 실패할경우 런타임 환경에서 크기가 여러번 조정될 수 있다.
  */
 public class WrongStringBuilderUseExample {
 
