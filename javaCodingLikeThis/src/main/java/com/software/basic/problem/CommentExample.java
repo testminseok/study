@@ -1,4 +1,4 @@
-package com.software.basic.problem.string;
+package com.software.basic.problem;
 
 import java.util.function.Supplier;
 
