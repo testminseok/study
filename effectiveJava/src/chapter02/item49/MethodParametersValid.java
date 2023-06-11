@@ -1,4 +1,4 @@
-package chapter02.item48;
+package chapter02.item49;
 
 import java.math.BigInteger;
 import java.util.Objects;
