@@ -1,6 +1,4 @@
-package chapter02.item13;
-
-import java.util.Map;
+package chapter03.item13;
 
 public class HashTable implements Cloneable {
     private Entry[] buckets = new Entry[100];

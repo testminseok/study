@@ -1,4 +1,4 @@
-package chapter02.item12;
+package chapter03.item12;
 
 public class PhoneNumber {
     private final short areaCode;

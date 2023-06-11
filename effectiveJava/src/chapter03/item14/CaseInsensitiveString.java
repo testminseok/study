@@ -1,7 +1,5 @@
-package chapter02.item14;
+package chapter03.item14;
 
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Objects;
 
 public class CaseInsensitiveString implements Comparable<CaseInsensitiveString> {

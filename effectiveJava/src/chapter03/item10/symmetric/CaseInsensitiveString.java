@@ -1,4 +1,4 @@
-package chapter02.item10.symmetric;
+package chapter03.item10.symmetric;
 
 import java.util.ArrayList;
 import java.util.List;

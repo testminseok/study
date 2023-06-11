@@ -1,4 +1,4 @@
-package chapter02.item12;
+package chapter03.item12;
 
 public class ToStringExample {
     public static void main(String[] args) {

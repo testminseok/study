@@ -1,4 +1,4 @@
-package chapter02.item10.transitive;
+package chapter03.item10.transitive;
 
 import java.awt.Color;
 import java.util.Objects;

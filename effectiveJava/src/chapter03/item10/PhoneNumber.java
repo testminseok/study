@@ -1,4 +1,4 @@
-package chapter02.item11;
+package chapter03.item10;
 
 import java.util.Objects;
 
@@ -53,10 +53,6 @@ public class PhoneNumber {
 
     @Override
     public int hashCode() {
-        int result = Short.hashCode(areaCode);
-        result = 31 * result + Short.hashCode(prefix);
-        result = 31 * result + Short.hashCode(lineNum);
-        return result;
-//        return Objects.hash(areaCode, prefix, lineNum); // 성능이 떨어진다. 때문에 성능에 민감하지 않은 상황에서만 사용하자.
+        return Objects.hash(areaCode, prefix, lineNum);
     }
 }
