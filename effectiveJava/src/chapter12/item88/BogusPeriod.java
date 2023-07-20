@@ -1,8 +1,6 @@
 package chapter12.item88;
 
-import java.io.ByteArrayInputStream;
-import java.io.IOException;
-import java.io.ObjectInputStream;
+import chapter12.util.SerializationHelper;
 
 public class BogusPeriod {
     // 진짜 Period 인스턴스에서는 만들어질 수 없는 바이트 스트림
@@ -21,16 +19,8 @@ public class BogusPeriod {
 
     public static void main(String[] args) {
         // 진짜 Period 인스턴스를 역직렬화해 불변식을 훼손한다.
-        Period p = (Period) deserialize(serializedForm);
+        Period p = (Period) SerializationHelper.deserialize(serializedForm);
 
         System.out.println(p);
-    }
-
-    private static Object deserialize(byte[] serializedForm) {
-        try {
-            return new ObjectInputStream(new ByteArrayInputStream(serializedForm)).readObject();
-        } catch (IOException | ClassNotFoundException e) {
-            throw new IllegalArgumentException(e);
-        }
     }
 }

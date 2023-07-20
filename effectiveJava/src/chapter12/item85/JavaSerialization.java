@@ -1,5 +1,7 @@
 package chapter12.item85;
 
+import chapter12.util.SerializationHelper;
+
 import java.io.*;
 import java.util.HashSet;
 import java.util.Set;
@@ -51,18 +53,6 @@ public class JavaSerialization {
             s2 = t2;
         }
 
-        return serialize(root); // root를 역직렬화하면 모든 객체가 만들어진다.
-    }
-
-    private static byte[] serialize(Set<Object> root) {
-        try (ByteArrayOutputStream bout = new ByteArrayOutputStream();
-             ObjectOutputStream out = new ObjectOutputStream(bout)) {
-            out.writeObject(root);
-            out.flush();
-            out.close();
-            return bout.toByteArray();
-        } catch (IOException e) {
-            throw new RuntimeException(e);
-        }
+        return SerializationHelper.serialize(root); // root를 역직렬화하면 모든 객체가 만들어진다.
     }
 }

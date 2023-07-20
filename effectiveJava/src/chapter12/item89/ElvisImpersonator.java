@@ -1,6 +1,6 @@
 package chapter12.item89;
 
-import java.io.*;
+import chapter12.util.SerializationHelper;
 
 public class ElvisImpersonator {
     // 진짜 Elvis 인스턴스로는 만들어 질 수 없는 바이트 스트림
@@ -21,28 +21,10 @@ public class ElvisImpersonator {
     public static void main(String[] args) {
         // ElvisStealer.impersonator 를 초기화 한다음
         // 진짜 Elvis 를 반환한다.
-        Elvis elvis = (Elvis) deserialize(serializedForm);
+        Elvis elvis = (Elvis) SerializationHelper.deserialize(serializedForm);
         Elvis impersonator = ElvisStealer.impersonator;
 
         elvis.printFavorites();
         impersonator.printFavorites();
-    }
-
-    private static Object deserialize(byte[] serializedForm) {
-        try {
-            return new ObjectInputStream(new ByteArrayInputStream(serializedForm)).readObject();
-        } catch (IOException | ClassNotFoundException e) {
-            throw new IllegalArgumentException(e);
-        }
-    }
-
-    private static byte[] serialize(Object o) {
-        ByteArrayOutputStream ba = new ByteArrayOutputStream();
-        try {
-            new ObjectOutputStream(ba).writeObject(o);
-            return ba.toByteArray();
-        } catch (IOException e) {
-            throw new IllegalArgumentException(e);
-        }
     }
 }
