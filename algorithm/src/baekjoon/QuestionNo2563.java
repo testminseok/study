@@ -11,7 +11,6 @@ public class QuestionNo2563 {
         boolean[][] map = new boolean[100][100];
 
         int num = Integer.parseInt(inputStreamReader.readLine());
-        int count = 0;
         for (int i = 0; i < num; i++) {
             StringTokenizer stringTokenizer = new StringTokenizer(inputStreamReader.readLine(), " ");
             int x = Integer.parseInt(stringTokenizer.nextToken());
@@ -21,6 +20,13 @@ public class QuestionNo2563 {
                 for (int k = 0; k < 10; k++) {
                     map[x + j][y + k] = true;
                 }
+            }
+        }
+
+        int count = 0;
+        for (int i = 0; i < map.length; i++) {
+            for (int j = 0; j < map[i].length; j++) {
+                if (map[i][j]) count++;
             }
         }
 
