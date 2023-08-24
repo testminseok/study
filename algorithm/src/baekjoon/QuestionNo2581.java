@@ -9,18 +9,21 @@ public class QuestionNo2581 {
         BufferedReader inputStreamReader = new BufferedReader(new InputStreamReader(System.in));
         int start = Integer.parseInt(inputStreamReader.readLine());
         int end = Integer.parseInt(inputStreamReader.readLine());
+        boolean[] arr = new boolean[end + 1];
+
+        arr[0] = true;
+        arr[1] = true;
+        for (int i = 2; i < Math.sqrt(arr.length); i++) {
+            if (arr[i]) continue;
+            for (int j = i * i; j < arr.length; j += i) {
+                arr[j] = true;
+            }
+        }
 
         int total = 0;
         int min = -1;
         for (int i = start; i <= end; i++) {
-            int cnt = 0;
-            for (int j = 1; j < i; j++) {
-                if (i % j == 0) {
-                    cnt++;
-                }
-            }
-
-            if (cnt == 1) {
+            if (!arr[i]) {
                 total += i;
                 if (min == -1) {
                     min = i;
