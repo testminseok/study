@@ -3,7 +3,6 @@ package baekjoon;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
-import java.util.Arrays;
 
 public class QuestionNo10101 {
     public static void main(String[] args) throws IOException {
@@ -14,23 +13,14 @@ public class QuestionNo10101 {
             angles[i] = angle;
         }
 
-        int total = Arrays.stream(angles).sum();
-        if (total != 180) {
+        if (180 != angles[0] + angles[1] + angles[2]) {
             System.out.println("Error");
-            return;
-        }
-
-        boolean isEquilateral = Arrays.stream(angles).allMatch(angle -> angle == 60);
-        if (isEquilateral) {
+        } else if (angles[0] == 60 && angles[1] == 60 && angles[2] == 60) {
             System.out.println("Equilateral");
-            return;
-        }
-
-        long count = Arrays.stream(angles).distinct().count();
-        if (count == 3) {
-            System.out.println("Scalene");
-        } else {
+        } else if (angles[0] == angles[1] || angles[0] == angles[2] || angles[1] == angles[2]) {
             System.out.println("Isosceles");
+        } else {
+            System.out.println("Scalene");
         }
     }
 }
