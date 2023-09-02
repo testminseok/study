@@ -8,32 +8,23 @@ import java.util.StringTokenizer;
 public class QuestionNo1085 {
     public static void main(String[] args) throws IOException {
         BufferedReader inputStreamReader = new BufferedReader(new InputStreamReader(System.in));
-        final int maxSize = 10000;
-        int[] xArr = new int[maxSize];
-        int[] yArr = new int[maxSize];
+        StringTokenizer stringTokenizer = new StringTokenizer(inputStreamReader.readLine(), " ");
+        int x = Integer.parseInt(stringTokenizer.nextToken());
+        int y = Integer.parseInt(stringTokenizer.nextToken());
+        int w = Integer.parseInt(stringTokenizer.nextToken());
+        int h = Integer.parseInt(stringTokenizer.nextToken());
 
-        for (int i = 0; i < 3; i++) {
-            StringTokenizer stringTokenizer = new StringTokenizer(inputStreamReader.readLine(), " ");
-            int x = Integer.parseInt(stringTokenizer.nextToken());
-            int y = Integer.parseInt(stringTokenizer.nextToken());
+        int right = w - x;
+        int down = h - y;
 
-            xArr[x]++;
-            yArr[y]++;
+        System.out.println(min(x, y, right, down));
+    }
+
+    private static int min(int... num) {
+        int min = Integer.MAX_VALUE;
+        for (int x : num) {
+            min = Integer.min(min, x);
         }
-
-        StringBuilder builder = new StringBuilder();
-        for (int i = 0; i < maxSize; i++) {
-            if (xArr[i] == 1) {
-                builder.append(i).append(" ");
-            }
-        }
-
-        for (int i = 0; i < maxSize; i++) {
-            if (yArr[i] == 1) {
-                builder.append(i);
-            }
-        }
-
-        System.out.println(builder);
+        return min;
     }
 }
