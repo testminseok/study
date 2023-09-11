@@ -10,11 +10,13 @@ public class QuestionNo2231 {
         int size = Integer.parseInt(inputStreamReader.readLine());
         StringBuilder builder = new StringBuilder();
         for (int i = 0; i < size; i++) {
-            char[] chars = String.valueOf(i).toCharArray();
+            int num = i;
             int total = 0;
-            for (char aChar : chars) {
-                total += Character.getNumericValue(aChar);
+            while (num != 0) {
+                total += num % 10;
+                num /= 10;
             }
+
             if (size == (i + total)) {
                 builder.append(i);
                 break;
