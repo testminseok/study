@@ -14,7 +14,7 @@ public class QuestionNo2750 {
             arr[i] = num;
         }
 
-        for (int i = 0; i < size; i++) {
+        for (int i = 0; i < size - 1; i++) {
             for (int j = i + 1; j < size; j++) {
                 if (arr[i] > arr[j]) {
                     int temp = arr[i];
@@ -24,8 +24,10 @@ public class QuestionNo2750 {
             }
         }
 
+        StringBuilder builder = new StringBuilder();
         for (int num : arr) {
-            System.out.println(num);
+            builder.append(num).append("\n");
         }
+        System.out.println(builder);
     }
 }
