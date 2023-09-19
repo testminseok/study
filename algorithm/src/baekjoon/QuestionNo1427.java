@@ -26,10 +26,8 @@ public class QuestionNo1427 {
             int compare = Integer.compare(x1.get("x"), x2.get("x"));
             if (compare == 0) {
                 return Integer.compare(x1.get("y"), x2.get("y"));
-            }else {
-                return Integer.compare(x1.get("x"), x2.get("x"));
             }
-
+            return compare;
         });
 
         StringBuilder builder = new StringBuilder();
