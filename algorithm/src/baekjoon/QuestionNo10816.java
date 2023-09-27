@@ -6,28 +6,34 @@ import java.io.InputStreamReader;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.StringTokenizer;
+import java.util.TreeMap;
 
 public class QuestionNo10816 {
     public static void main(String[] args) throws IOException {
         BufferedReader inputStreamReader = new BufferedReader(new InputStreamReader(System.in));
-        int N = Integer.parseInt(inputStreamReader.readLine());
         StringTokenizer stringTokenizer = new StringTokenizer(inputStreamReader.readLine(), " ");
-        Map<String, Integer> map = new HashMap<>();
+        int N = Integer.parseInt(stringTokenizer.nextToken());
+        int M = Integer.parseInt(stringTokenizer.nextToken());
+
+        Map<String, String> map = new HashMap<>();
+        // 듣도 못한 사람
         for (int i = 0; i < N; i++) {
-            String card = stringTokenizer.nextToken();
-            if (map.containsKey(card)) {
-                map.put(card, map.get(card) + 1);
-            } else {
-                map.put(card, 1);
+            map.put(inputStreamReader.readLine(), "");
+        }
+
+        Map<String, String> map2 = new TreeMap<>();
+        // 보도 못한 사람
+        for (int i = 0; i < M; i++) {
+            String key = inputStreamReader.readLine();
+            if (map.containsKey(key)) {
+                map2.put(key, "");
             }
         }
 
-        int M = Integer.parseInt(inputStreamReader.readLine());
-        stringTokenizer = new StringTokenizer(inputStreamReader.readLine(), " ");
         StringBuilder builder = new StringBuilder();
-        for (int i = 0; i < M; i++) {
-            String card = stringTokenizer.nextToken();
-            builder.append(map.getOrDefault(card, 0)).append(" ");
+        builder.append(map2.size()).append("\n");
+        for (String key : map2.keySet()) {
+            builder.append(key).append("\n");
         }
 
         System.out.println(builder);
