@@ -10,9 +10,7 @@ public class QuestionNo4949 {
         String str;
         StringBuilder builder = new StringBuilder();
         while (!(str = inputStreamReader.readLine()).equals(".")) {
-            str = str.replaceAll("[a-zA-Z]", "");
-            str = str.replaceAll(" ", "");
-            str = str.replaceAll("\\.", "");
+            str = str.replaceAll("[^()\\[\\]]", "");
             if (str.length() % 2 != 0) {
                 builder.append("no").append("\n");
                 continue;
