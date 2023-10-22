@@ -24,10 +24,13 @@ public class QuestionNo1929 {
             }
         }
 
+        StringBuilder builder = new StringBuilder();
         for (int i = M; i < N + 1; i++) {
             if (!arr[i]) {
-                System.out.println(i);
+                builder.append(i).append("\n");
             }
         }
+
+        System.out.println(builder);
     }
 }
