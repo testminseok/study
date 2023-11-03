@@ -12,17 +12,15 @@ public class QuestionNo2292 {
         if (N == 1) {
             System.out.println(1);
         } else {
-            int t = 0;
-            int num = 1;
-            while (t <= 1_000_000_000) {
-                t += 6;
-                num += t;
-                if (N <= num) {
-                    System.out.println((t / 6) + 1);
-                    break;
-                }
+            // 1 = 1 , 6 = 2,     18 = 3 ,     36 = 4 ,     60 = 5
+            // 1 * 0        2 * 3 = 6  3 * 6 = 18 , 4 * 9 = 36,   5 * 12 = 60, 6 * 15 = 90
+            int i = 2;
+            int j = 3;
+            while (i * j < N - 1) {
+                i++;
+                j += 3;
             }
+            System.out.println(i);
         }
-
     }
 }
