@@ -8,24 +8,24 @@ public class QuestionNo1193 {
     public static void main(String[] args) throws IOException {
         BufferedReader inputStreamReader = new BufferedReader(new InputStreamReader(System.in));
         int N = Integer.parseInt(inputStreamReader.readLine());
-        // 1 / 3 / 6 / 10
         if (N == 1) {
             System.out.println("1/1");
         } else {
-            int range = 1;
-            int num = 0;
-            boolean right = true;
+            int range = 1; // 범위
+            int line = 0; // 대각선 수
             while (range <= N) {
-                num++;
-                range += num;
-                right = !right;
+                line++;
+                range += line;
             }
 
-            if (right) {
-                System.out.println((num + 1) - (range - N) + "/" + (range - N));
-            } else {
-                System.out.println((range - N) + "/" + ((num + 1) - (range - N)));
-            }
+            int position = range - N; // 대각선 상의 위치
+            int num = (line + 1) - position; // 분모 또는 분자
+            boolean isRight = line % 2 == 0; // 대각선 위에서 아래로 내려오는지
+            int numerator = isRight ? num : position;
+            int denominator = isRight ? position : num;
+
+            System.out.println(numerator + "/" + denominator);
+            
         }
     }
 }
