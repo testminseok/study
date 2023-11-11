@@ -3,35 +3,27 @@ package baekjoon;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
-import java.util.StringTokenizer;
 
-public class QuestionNo1085 {
-    private static int zero = 0;
-    private static int one = 0;
+public class QuestionNo1003 {
     public static void main(String[] args) throws IOException {
         BufferedReader inputStreamReader = new BufferedReader(new InputStreamReader(System.in));
         int N = Integer.parseInt(inputStreamReader.readLine());
+        int[][] arr = new int[44][2];
+        arr[0][0] = 1;
+        arr[0][1] = 0;
+        arr[1][0] = 0;
+        arr[1][1] = 1;
         StringBuilder builder = new StringBuilder();
         for (int i = 0; i < N; i++) {
-            fibonacci(N);
-            builder.append(zero);
-            builder.append(" ");
-            builder.append(one);
-            builder.append("\n");
-            zero = 0;
-            one = 0;
+            int num = Integer.parseInt(inputStreamReader.readLine());
+
+            for (int j = 0; j <= num; j++) {
+                arr[j + 2][0] = arr[j][0] + arr[j + 1][0];
+                arr[j + 2][1] = arr[j][1] + arr[j + 1][1];
+            }
+            builder.append(arr[num][0]).append(" ").append(arr[num][1]).append("\n");
         }
-    }
 
-    private static int fibonacci(int n) {
-        if (n == 0)  {
-            zero++;
-            return 0;
-        } else if (n == 1) {
-            one++;
-            return 1;
-        } 
-
-        return fibonacci(n - 1) + fibonacci(n - 2);
+        System.out.println(builder);
     }
 }
