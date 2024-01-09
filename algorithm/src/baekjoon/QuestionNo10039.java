@@ -7,13 +7,10 @@ import java.io.InputStreamReader;
 public class QuestionNo10039 {
     public static void main(String[] args) throws IOException {
         BufferedReader inputStreamReader = new BufferedReader(new InputStreamReader(System.in));
-
-        int total = 0;
-        for (int i = 0; i < 5; i++) {
-            int score = Integer.parseInt(inputStreamReader.readLine());
-            total += Integer.max(score, 40);
-        }
-
-        System.out.println(total / 5);
+        double v = inputStreamReader.lines()
+                .mapToInt(Integer::parseInt)
+                .map(num -> Math.max(num, 40))
+                .average().orElse(0);
+        System.out.println((int) v);
     }
 }
